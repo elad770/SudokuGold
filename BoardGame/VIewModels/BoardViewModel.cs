@@ -136,23 +136,9 @@ namespace BoardGame.VIewModels
 
         private bool IsBoardSolved()
         {
-
             return TextBoxCells.OfType<TextBox>().All(
                textbox =>
                !(textbox.Text == "" && textbox != focusedTextBox || textbox.Foreground == Brushes.Red));
-
-            //foreach (var tb in TextBoxCells)
-            //{
-            //    if (tb.Text == "" && tb != focusedTextBox || tb.Foreground == Brushes.Red)
-            //    {
-            //        return false;
-            //    }
-
-            //}
-            //return true;
-            //return TextBoxCells.OfType<TextBox>().All(
-            //    textbox =>
-            //    textbox.Text != ""  && textbox.Foreground != Brushes.Red);
         }
 
         private void UpdateCell(int[] parms)
