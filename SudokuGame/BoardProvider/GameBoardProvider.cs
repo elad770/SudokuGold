@@ -17,11 +17,8 @@ namespace SudokuGame.BoardProvider
     {
 
         private int[,] _array;
-
         private int[,] _arrClone;
-
         private string filePath = "borads_game\\boards.json";
-
         private Dictionary<string, int[][,]> difficultyBorads;
 
 
@@ -29,7 +26,6 @@ namespace SudokuGame.BoardProvider
         {
             ReadJsonOfBorad();
         }
-
 
         private void ReadJsonOfBorad()
         {
@@ -42,12 +38,10 @@ namespace SudokuGame.BoardProvider
 
         }
 
-
         public int[,] GetBoard(string difficulty = "Extreme")
         {
             var borads = difficultyBorads[difficulty];
             int boradRandom = new Random().Next(0, borads.Length);
-            //_array = (int[,])borads[boradRandom].Clone();
             _arrClone = (int[,])borads[boradRandom].Clone();
             return CloneBorad();
         }
@@ -57,18 +51,7 @@ namespace SudokuGame.BoardProvider
             _array = (int[,])_arrClone.Clone();
             return _array;
         }
-
-
-        //public bool IsBoardValid(int[] parms)
-        //{
-        //    if (parms.Length != 3)
-        //    {
-        //        throw new ArgumentException("Invalid number of parameters. Please provide the value, row index, and column index.");
-        //    }
-
-        //    return IsBoardValid(parms[0], new int[] { parms[1], parms[2] });
-        //}
-
+        
         public bool IsBoardValid(int[] parms)
         {
             if (parms.Length != 3)
@@ -89,7 +72,6 @@ namespace SudokuGame.BoardProvider
             return IsRowOrColunmValid(0, indexCol, lambdaIsRowColSubMatrix, false) &&
                  IsRowOrColunmValid(indexRow, 0, lambdaIsRowColSubMatrix) &&
                  IsSubMatrixValid(indexRow, indexCol, lambdaIsRowColSubMatrix);
-
         }
 
 
@@ -139,11 +121,6 @@ namespace SudokuGame.BoardProvider
 
             return true;
         }
-
-        //public List<int[]> GetIndexesToChnageColor(params int[] para)
-        //{
-        //    return GetIndexesToChnageColor(new int[] { para[0], para[1], para[2] }, para[3]);
-        //}
 
         public List<int[]> GetIndexesLocationError(int[] prmas)
         {
@@ -195,7 +172,6 @@ namespace SudokuGame.BoardProvider
 
             return liIndexesChnage;
         }
-
 
     }
 }
