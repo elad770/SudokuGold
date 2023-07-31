@@ -17,6 +17,9 @@ namespace SudokuGame.BoardProvider
     {
 
         private int[,] _array;
+
+        private int[,] _arrClone;
+
         private string filePath = "borads_game\\boards.json";
 
         private Dictionary<string, int[][,]> difficultyBorads;
@@ -44,9 +47,18 @@ namespace SudokuGame.BoardProvider
         {
             var borads = difficultyBorads[difficulty];
             int boradRandom = new Random().Next(0, borads.Length);
-            _array = (int[,])borads[boradRandom].Clone();
+            //_array = (int[,])borads[boradRandom].Clone();
+            _arrClone = (int[,])borads[boradRandom].Clone();
+            return CloneBorad();
+        }
+
+        public int[,] CloneBorad()
+        {
+            _array = (int[,])_arrClone.Clone();
             return _array;
         }
+
+
         //public bool IsBoardValid(int[] parms)
         //{
         //    if (parms.Length != 3)

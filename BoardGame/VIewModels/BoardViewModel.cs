@@ -31,9 +31,6 @@ namespace BoardGame.VIewModels
     {
 
         private object board;
-        private object boardClone;
-
-
 
         internal TextBox focusedTextBox;
 
@@ -53,12 +50,12 @@ namespace BoardGame.VIewModels
                 {
                     if (boardLevel == "clone")
                     {
-                        board = ((int[,])boardClone).Clone();
+                        board = this.gameBoard.CloneBorad();
+                        //board = ((int[,])boardClone).Clone();
                     }
                     else
                     {
                         board = this.gameBoard.GetBoard(boardLevel);
-                        boardClone = ((int[,])board).Clone();
                     }
                     UpdateCells();
 
@@ -104,6 +101,8 @@ namespace BoardGame.VIewModels
                 soundPlayers[soundFileName] = new SoundPlayer(soundFiles[i]);
             }
         }
+
+
 
         private void UpdateCells(bool isNewGame = true, dynamic li_indexes = null)
         {

@@ -208,7 +208,7 @@ namespace SudokuGame.Pages
                     {
                         user.HandlerButtonOutsideGame(GameAction.Reset_Game);
                         ResetTimer();
-                        break;
+                        return;
                     }
 
                 case "buErase":

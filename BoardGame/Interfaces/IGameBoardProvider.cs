@@ -9,5 +9,9 @@ namespace SudokuGame.UserControls.Interfaces
     public interface IGameBoardProvider
     {
         int[,] GetBoard(string difficulty);
+
+        int[,] CloneBorad();
+
+
     }
 }
