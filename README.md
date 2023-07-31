@@ -17,4 +17,16 @@ The second function requires returning a list of row and column indexes, if valu
 
 The project uses the Material Design library for rich design, in addition it uses the Fody library which facilitates the definition of class properties and variables in the context of the NotifyChanged event.
 The sounds, icons and images in the game itself were downloaded from free websites.
+
+
 ![image](https://github.com/elad770/SudokuGold/assets/73057751/8f103553-4b14-4774-a643-44270a02d4b6)
+![image](https://github.com/elad770/SudokuGold/assets/73057751/7dcef590-e0ad-4cf0-af75-24ac7a48f2eb)
+![image](https://github.com/elad770/SudokuGold/assets/73057751/0f132d5b-1341-427e-b61a-100dd936c69c)
+![image](https://github.com/elad770/SudokuGold/assets/73057751/247666f9-d934-4c8c-aaf9-917b647ab26a)
+![image](https://github.com/elad770/SudokuGold/assets/73057751/c1732fe2-7219-4218-bf32-6f2a78f356f8)
+![image](https://github.com/elad770/SudokuGold/assets/73057751/9f8cf214-deb7-49ed-a026-d61ea49d9481)
+
+
+
+
+
