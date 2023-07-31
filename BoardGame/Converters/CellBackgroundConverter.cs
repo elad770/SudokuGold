@@ -57,44 +57,4 @@ namespace BoardGame.Converters
             throw new NotSupportedException();
         }
     }
-
-
-
-    //internal class CellBackgroundConverter : IValueConverter
-    //{
-
-    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        ////  if (parameter is string praString)
-    //        ////  {
-    //        //return Brushes.White;
-    //        ////   }
-
-    //        //   var parameterObj = parameter as object[];
-    //        string keyColor = ColorDictionaryWrapper.ColorHexKey.ToLower();
-    //        var valueColor = ColorDictionaryWrapper.DictFocusColors[keyColor];
-    //        if (parameter.Equals(value))
-    //        {
-    //            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(keyColor));
-    //        }
-    //        var tags1 = (Tuple<int, int, int>)value;
-    //        // var tags2 = (Tuple<int, int, int>)parameterObj[0];
-    //        var tags2 = (Tuple<int, int, int>)parameter;
-
-    //        if (tags1 != null && (tags1.Item1 == tags2.Item1 || tags1.Item2 == tags2.Item2 ||
-    //            tags1.Item3 == tags2.Item3))
-    //        {
-    //            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(valueColor));
-    //        }
-
-    //        return Brushes.White;
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-
-    //        return null;
-    //    }
-
-    //}
 }
