@@ -159,7 +159,10 @@ namespace SudokuGame.UserControls
                 // viewModel.focusedTextBox.GotFocus += viewModel.TextBox_GotFocus;
             }
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
     }
 
 

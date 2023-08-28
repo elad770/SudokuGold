@@ -120,6 +120,176 @@ namespace BoardGame.VIewModels
             }
         }
 
+<<<<<<< HEAD
+=======
+
+
+        private void UpdateCells(bool isNewGame = true, dynamic li_indexes = null)
+        {
+            if (isNewGame)
+            {
+                // CellCurrentTag = null;
+                focusedTextBox = null;
+                Cell = new CellContect();
+                TextBoxCells.OfType<TextBox>().ToList().ForEach(tb => tb.Foreground = Brushes.Black);
+                return;
+
+            }
+            else if (/*li_indexes != null &&*/ li_indexes.Count > 0)
+            {
+                foreach (var indexes in li_indexes)
+                {
+                    int index = indexes[0] * 9 + indexes[1] % 9;
+                    if (!TextBoxCells[index].IsReadOnly)
+                    {
+                        TextBoxCells[index].Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x72, 0xE3));
+                    }
+                }
+            }
+            if (IsBoardSolved())
+            {
+                actionAfterEndGame();
+            }
+
+        }
+
+
+        private bool IsBoardSolved()
+        {
+            return TextBoxCells.OfType<TextBox>().All(
+               textbox =>
+               !(textbox.Text == "" && textbox != focusedTextBox || textbox.Foreground == Brushes.Red));
+        }
+
+        private void UpdateCell(int[] parms)
+        {
+            var bo = (board as int[,]);
+            int row = parms[1], col = parms[2];
+            int result = bo[row, col] == parms[0] ? 0 : parms[0];
+            int index = row * 9 + col % 9;
+            if (result != 0)
+            {
+
+                if (gameBoard.IsBoardValid(parms))
+                {
+                    TextBoxCells[index].Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x72, 0xE3));
+                    soundPlayers["success-sound"].Play();
+                }
+                else
+                {
+                    TextBoxCells[index].Foreground = Brushes.Red;
+                    soundPlayers["error-sound"].Play();
+                }
+
+
+
+                //  TextBoxCells[index].Foreground = gameBoard.IsBoardValid(parms) ? new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0x72, 0xE3)) : Brushes.Red;
+                // Update the foreground for the appearances of this replaced value 
+                int preValueChange = bo[row, col];
+                bo[row, col] = result;
+                parms[0] = preValueChange;
+                UpdateCells(false, gameBoard.GetIndexesLocationError(parms));
+            }
+            else if (bo[row, col] != 0)
+            {
+                bo[row, col] = result;
+                UpdateCells(false, gameBoard.GetIndexesLocationError(parms));
+            }
+            Cell.Content = result.ToString();
+
+        }
+
+        public void GenerateTextBoxCell(int[] indexesCell)
+        {
+            var textBox = new TextBoxCell();
+            textBox.SelectionChanged += TextBox_SelectionChanged;
+            textBox.GotFocus += TextBox_GotFocus;
+            textBox.PreviewKeyDown += TextBox_PreviewKeyDown;
+            //  textBox.PreviewMouseRightButtonDown += TextBox_PreviewMouseRightButtonDown;
+            Func<IValueConverter, Binding> createBinding = (convter) =>
+             {
+                 Binding bind = new Binding("Board")
+                 {
+                     Source = this,
+                     Converter = convter,
+                     //  ConverterParameter = textBox.IsReadOnly,
+                     Mode = BindingMode.TwoWay,
+                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+
+                 };
+                 return bind;
+             };
+
+            textBox.SetBinding(TextBox.IsReadOnlyProperty, createBinding(new CellReadOnlyConverter(indexesCell)));
+            textBox.SetBinding(TextBox.TagProperty, createBinding(new CellTagConverter(indexesCell)));
+            textBox.SetBinding(TextBox.TextProperty, createBinding(new CellTextConverter(indexesCell)));
+
+
+            var multiBinding = new MultiBinding
+            {
+                Converter = new MultiBackgroundConverter(),
+                ConverterParameter = textBox // new object[] { textBox.Tag, textBox }
+            };
+
+            multiBinding.Bindings.Add(new Binding("Cell.CellCurrentTag")
+            {
+                Mode = BindingMode.OneWay,
+                Source = this,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            });
+
+            multiBinding.Bindings.Add(new Binding("Cell.Content")
+            {
+                Mode = BindingMode.OneWay,
+                Source = this,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            });
+
+
+            textBox.SetBinding(TextBox.BackgroundProperty, multiBinding);
+
+
+            //textBox.SetBinding(TextBox.BackgroundProperty, new Binding(
+            //      "Cell")
+            //{
+            //    Mode = BindingMode.OneWay,
+            //    Source = this,
+            //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            //    Converter = new CellBackgroundConverter(),
+            //    ConverterParameter = new object[] { textBox.Tag, textBox.Text },
+            //});
+
+
+            TextBoxCells.Add(textBox);
+
+        }
+
+
+
+        private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            //Prevent caret of textbox 
+            if (sender != null)
+            {
+                TextBox tb = (sender as TextBox);
+                e.Handled = true;
+                if (tb.SelectionLength != 0)
+                    tb.SelectionLength = 0;
+            }
+        }
+
+        internal void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+            focusedTextBox = (TextBox)sender;
+            //  CellCurrentTag = (dynamic)(focusedTextBox).Tag;
+
+            Cell.CellCurrentTag = (dynamic)(focusedTextBox).Tag;
+            Cell.Content = focusedTextBox.Text;
+            soundPlayers["focus-sound"].Play();
+        }
+
+>>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
         private void ChangeBackgroundColor(object parameter)
         {
             ColorDictionaryResource.ColorHexKey = parameter.ToString();

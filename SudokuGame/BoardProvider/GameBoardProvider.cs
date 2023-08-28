@@ -19,11 +19,8 @@ namespace SudokuGame.BoardProvider
     {
 
         private int[,] _array;
-
         private int[,] _arrClone;
-
         private string filePath = "borads_game\\boards.json";
-
         private Dictionary<string, int[][,]> difficultyBorads;
 
 
@@ -38,7 +35,6 @@ namespace SudokuGame.BoardProvider
             int[,] arr = new int[10, 10];
         }
 
-
         private void ReadJsonOfBorad()
         {
 
@@ -50,7 +46,11 @@ namespace SudokuGame.BoardProvider
 
         }
 
+<<<<<<< HEAD
         public void GenerateNewBoard(out int[,] board, DifficultyLevel level)
+=======
+        public int[,] GetBoard(string difficulty = "Extreme")
+>>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
         {
             //Level = level;
             var borads = difficultyBorads[level.ToString()];
@@ -74,10 +74,15 @@ namespace SudokuGame.BoardProvider
         {
             board = _array = (int[,])_arrClone.Clone();
         }
+<<<<<<< HEAD
 
 
         //public bool IsBoardValid(int[] parms)
         public bool IsBoardValid(int value, int indexRow, int indexCol)
+=======
+        
+        public bool IsBoardValid(int[] parms)
+>>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
         {
             //if (parms.Length != 3)
             //{
@@ -97,7 +102,6 @@ namespace SudokuGame.BoardProvider
             return IsRowOrColunmValid(0, indexCol, lambdaIsRowColSubMatrix, false) &&
                  IsRowOrColunmValid(indexRow, 0, lambdaIsRowColSubMatrix) &&
                  IsSubMatrixValid(indexRow, indexCol, lambdaIsRowColSubMatrix);
-
         }
 
 
@@ -148,12 +152,16 @@ namespace SudokuGame.BoardProvider
             return true;
         }
 
+<<<<<<< HEAD
         //public List<int[]> GetIndexesToChnageColor(params int[] para)
         //{
         //    return GetIndexesToChnageColor(new int[] { para[0], para[1], para[2] }, para[3]);
         //}
 
         public List<int[]> GetIndexesLocationError(params int[] prmas)
+=======
+        public List<int[]> GetIndexesLocationError(int[] prmas)
+>>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
         {
 
             List<int[]> liIndexesChnage = new List<int[]>();
@@ -203,7 +211,6 @@ namespace SudokuGame.BoardProvider
 
             return liIndexesChnage;
         }
-
 
     }
 }
