@@ -25,5 +25,3 @@ The sounds, icons and images in the game itself were downloaded from free websit
 ![image](https://github.com/elad770/SudokuGold/assets/73057751/9f8cf214-deb7-49ed-a026-d61ea49d9481)
 ![WhatsApp Image 2023-08-28 at 12 57 09](https://github.com/elad770/SudokuGold/assets/73057751/8e1a050f-70ff-4ea2-a64d-0881897e3d03)
 ![WhatsApp Image 2023-08-28 at 00 27 04](https://github.com/elad770/SudokuGold/assets/73057751/6d0e0a01-2425-46a8-a962-7d20b7915042)
-![WhatsApp Image 2023-08-29 at 00 50 00](https://github.com/elad770/SudokuGold/assets/73057751/3d6926c1-47d2-49b3-9822-387d0a7d1820)
-
