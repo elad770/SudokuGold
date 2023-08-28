@@ -16,8 +16,6 @@ using System.Windows.Media;
 namespace BoardGame.Converters
 {
 
-
-
     public class CellBackgroundConverter : IValueConverter
     {
         Dictionary<ModeCellBackgroundColor, string> dictModeCellBackground;
@@ -40,30 +38,6 @@ namespace BoardGame.Converters
             dictModeCellBackground[ModeCellBackgroundColor.Focus] = keyColor;
             dictModeCellBackground[ModeCellBackgroundColor.Related] = valueColor;
             return dictModeCellBackground[(ModeCellBackgroundColor)value];
-            // color green to SameValue 
-            // string hexColorSameValue = "#90EE90";
-            //string hexColorSameValue = "#8adaa5";
-
-            //switch ((ModeCellBackgroundColor)value)
-            //{
-            //    case ModeCellBackgroundColor.Without:
-            //        return Brushes.White;
-            //    // return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#212F3C"));
-            //    case ModeCellBackgroundColor.Focus:
-            //        return new SolidColorBrush((Color)ColorConverter.ConvertFromString(keyColor));
-            //    case ModeCellBackgroundColor.Related:
-            //        return new SolidColorBrush((Color)ColorConverter.ConvertFromString(valueColor));
-            //    case ModeCellBackgroundColor.SameValue:
-            //        // color green
-            //        return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#90EE90"));
-            //    case ModeCellBackgroundColor.SameValueError:
-            //        // color red
-            //        return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ff4d4d"));
-            //    default:
-            //        return Brushes.White;
-
-            //}
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -72,8 +46,5 @@ namespace BoardGame.Converters
         }
 
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
 }
