@@ -44,11 +44,14 @@ namespace SudokuGame
 
         public MainWindow()
         {
+
+            int[] nums = new int[] { -1, 0, 1, 2, -1, -4 };
+            nums = nums.OrderBy(x => x).ToArray();
             InitializeComponent();
             string currentDirectory = System.IO.Directory.GetCurrentDirectory();
             string soundFilePath = System.IO.Path.Combine("..", "..", "Sounds", "background-sound.wav");
             soundPlayer = new SoundPlayer(soundFilePath);
-            Task.Run(() => soundPlayer.PlayLooping());
+            //Task.Run(() => soundPlayer.PlayLooping());
 
         }
 

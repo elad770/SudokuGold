@@ -1,16 +1,18 @@
-﻿using System;
+﻿using BoardGame.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace SudokuGame.UserControls.Interfaces
 {
     public interface IGameBoardProvider
     {
-        int[,] GetBoard(string difficulty);
+        void GenerateNewBoard(out int[,] borad, DifficultyLevel Level);
 
-        int[,] CloneBorad();
+        void InitializeBoard(out int[,] board);
 
 
     }

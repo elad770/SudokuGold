@@ -9,6 +9,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace SudokuGame.BoardProvider
 {
@@ -25,9 +27,15 @@ namespace SudokuGame.BoardProvider
         private Dictionary<string, int[][,]> difficultyBorads;
 
 
+
+        public DifficultyLevel Level { get; private set; }
+
+
+
         public GameBoardProvider()
         {
             ReadJsonOfBorad();
+            int[,] arr = new int[10, 10];
         }
 
 
@@ -42,40 +50,40 @@ namespace SudokuGame.BoardProvider
 
         }
 
-
-        public int[,] GetBoard(string difficulty = "Extreme")
+        public void GenerateNewBoard(out int[,] board, DifficultyLevel level)
         {
-            var borads = difficultyBorads[difficulty];
+            //Level = level;
+            var borads = difficultyBorads[level.ToString()];
             int boradRandom = new Random().Next(0, borads.Length);
-            //_array = (int[,])borads[boradRandom].Clone();
             _arrClone = (int[,])borads[boradRandom].Clone();
-            return CloneBorad();
+            InitializeBoard(out board);
         }
 
-        public int[,] CloneBorad()
+
+
+        //public int[,] GetBoard(string difficulty = "Extreme")
+        //{
+        //    var borads = difficultyBorads[difficulty];
+        //    int boradRandom = new Random().Next(0, borads.Length);
+        //    //_array = (int[,])borads[boradRandom].Clone();
+        //    _arrClone = (int[,])borads[boradRandom].Clone();
+        //    return CloneBorad();
+        //}
+
+        public void InitializeBoard(out int[,] board)
         {
-            _array = (int[,])_arrClone.Clone();
-            return _array;
+            board = _array = (int[,])_arrClone.Clone();
         }
 
 
         //public bool IsBoardValid(int[] parms)
-        //{
-        //    if (parms.Length != 3)
-        //    {
-        //        throw new ArgumentException("Invalid number of parameters. Please provide the value, row index, and column index.");
-        //    }
-
-        //    return IsBoardValid(parms[0], new int[] { parms[1], parms[2] });
-        //}
-
-        public bool IsBoardValid(int[] parms)
+        public bool IsBoardValid(int value, int indexRow, int indexCol)
         {
-            if (parms.Length != 3)
-            {
-                throw new ArgumentException("Invalid number of parameters. Please provide the value, row index, and column index.");
-            }
-            int value = parms[0], indexRow = parms[1], indexCol = parms[2];
+            //if (parms.Length != 3)
+            //{
+            //    throw new ArgumentException("Invalid number of parameters. Please provide the value, row index, and column index.");
+            //}
+            //  int value = parms[0], indexRow = parms[1], indexCol = parms[2];
 
             var lambdaIsRowColSubMatrix = new Func<int, int, bool>((row, col) =>
             {
@@ -145,7 +153,7 @@ namespace SudokuGame.BoardProvider
         //    return GetIndexesToChnageColor(new int[] { para[0], para[1], para[2] }, para[3]);
         //}
 
-        public List<int[]> GetIndexesLocationError(int[] prmas)
+        public List<int[]> GetIndexesLocationError(params int[] prmas)
         {
 
             List<int[]> liIndexesChnage = new List<int[]>();
@@ -174,7 +182,7 @@ namespace SudokuGame.BoardProvider
             void AddIndexToList()
             {
                 // check if index potential valid 
-                if (potentialIndexRow != -1 && IsBoardValid(new int[] { value, potentialIndexRow, potentialIndexCol }))
+                if (potentialIndexRow != -1 && IsBoardValid(value, potentialIndexRow, potentialIndexCol))
                 {
                     liIndexesChnage.Add(new int[] { potentialIndexRow, potentialIndexCol });
                 }

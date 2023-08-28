@@ -12,9 +12,10 @@ namespace SudokuGame.UserControls.Interfaces
         /// Validate a value by an index in the board, the checks if the value in the current position (index) is valid in terms of the row, column and 3x3 submatrix.
         /// </summary>
         /// <param name="value">The value to validate.</param>
-        /// <param name="indexes">The row and column indexes of the value in the board.</param>
+        /// <param name="indexRow">The row index of the value in the board.</param>
+        /// <param name="indexCol">The column index of the value in the board.</param>
         /// <returns>true If the value is a valid value according to the row column and submatrix in board; otherwise, false.</returns>
-        bool IsBoardValid(int[] parms);
+        bool IsBoardValid(int value, int indexRow, int indexCol);
 
         /// <summary>
         /// Returns the valid move index for the specified row or column.
@@ -25,7 +26,7 @@ namespace SudokuGame.UserControls.Interfaces
         //bool IsBoardValid(int[] parms);
 
 
-        List<int[]> GetIndexesLocationError(int[] prmas);
+        List<int[]> GetIndexesLocationError(params int[] prmas);
 
     }
 }

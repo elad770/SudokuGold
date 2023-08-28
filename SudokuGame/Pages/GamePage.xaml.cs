@@ -55,7 +55,7 @@ namespace SudokuGame.Pages
                 else
                 {
 
-                    instance.user.RefocusCell();
+                    //  instance.user.RefocusCell();
                     instance.startTime = DateTime.Now - instance.elapsedTime;
                     instance.timer.Start();
                     ((MainWindow)Application.Current.MainWindow).Title = instance.WindowTitle;
@@ -81,6 +81,7 @@ namespace SudokuGame.Pages
             };
 
             user = new UserControlBoardGame(new GameBoardProvider(), currentdiff, actionAfterEndGame);
+
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -201,7 +202,7 @@ namespace SudokuGame.Pages
                     {
                         user.HandlerButtonOutsideGame(GameAction.New_Game, currentdiff);
                         ResetTimer();
-                        break;
+                        return;
                     }
 
                 case "buResetGame":
@@ -264,7 +265,7 @@ namespace SudokuGame.Pages
                 case "buBack":
                     {
                         PopupHostMenu.IsOpen = false;
-                        user.LostFocusCell();
+                        //  user.LostFocusCell();
                         ((MainWindow)Application.Current.MainWindow).BackMainWinodw();
                         break;
                     }

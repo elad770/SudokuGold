@@ -80,7 +80,7 @@
                                 </Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="Margin"  Value="5,5,0,0"/>
+                                    <Setter Property="Margin"  Value="3,5,0,0"/>
                                 </Style>
 
                             </StackPanel.Resources>
@@ -90,7 +90,7 @@
                                     <Image Source="../Assets/icons8-menu-45.png"/>
 
                                 </Button>
-                                <TextBlock   Text="Menu"/>
+                                <TextBlock Text="Menu"/>
                             </StackPanel>
 
                             <StackPanel>
@@ -98,7 +98,7 @@
                                     <Image Source="../Assets/icons8-undo-45.png"/>
 
                                 </Button>
-                                <TextBlock   Text="Undo"/>
+                                <TextBlock Text="Undo"/>
                             </StackPanel>
 
                             <StackPanel>
@@ -170,11 +170,11 @@
 
             <materialDesign:DialogHost x:Name="PopupHostMenu">
                 <materialDesign:DialogHost.DialogContent>
-                    <materialDesign:Card Padding="40"  Height="400" Background="#3b444b">
+                    <materialDesign:Card Padding="40"  Height="420" Background="#3b444b">
                         <StackPanel>
                             <StackPanel.Resources>
                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-                                    <Setter Property="Width" Value="Auto" />
+                                    <Setter Property="Width" Value="150" />
                                     <Setter Property="Height" Value="34" />
                                     <Setter Property="Margin" Value="0,0,0,30" />
                                     <Setter Property="FontSize" Value="20" />
@@ -183,9 +183,10 @@
                                     <EventSetter Event="PreviewMouseDown" Handler="Menu_Button"/>
                                 </Style>
                             </StackPanel.Resources>
-                            <Button x:Name="buNext" Content="Continue The Game"/>
+                            <TextBlock  Width="auto" HorizontalAlignment="Center" Margin="0,0,0,5" Height="25" Foreground="White">Menu</TextBlock>
+                            <Button x:Name="buNext" Content="Continue"/>
                             <Button x:Name="buSettings" Content="Settings"/>
-                            <Button x:Name="buBack" Content="Back To Menu Main"/>
+                            <Button x:Name="buBack" Content="Menu Main"/>
                             <Button x:Name="buExit" Content="Exit Game"/>
                         </StackPanel>
                     </materialDesign:Card>

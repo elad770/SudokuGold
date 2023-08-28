@@ -2,8 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:models = "clr-namespace:BoardGame.Models"
+                    xmlns:conv ="clr-namespace:BoardGame.Converters"
                     >
     <ResourceDictionary.MergedDictionaries>
+
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Badged.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Snackbar.xaml" />
@@ -19,6 +21,9 @@
 
         <!-- Add other merged dictionaries as needed -->
     </ResourceDictionary.MergedDictionaries>
+    <conv:CellBackgroundConverter x:Key="CellBackgroundColor"/>
+    <conv:ColorBorderByTagConverter x:Key="ColorTag"/>
+    <conv:CellForegroundColorConverter x:Key="CellForegroundColor"/>
 
     <SolidColorBrush x:Key="CustomColor0" Color="#71c7ec" />
     <SolidColorBrush x:Key="CustomColor1" Color="#bfd7f5" />
@@ -31,23 +36,28 @@
     <SolidColorBrush x:Key="CustomColor8" Color="#ffffD700"/>
 
 
+    <FontFamily x:Key="Exo2Thin">pack://application:,,,/Assets/Fonts/#Exo 2 Thin</FontFamily>
+    <FontFamily x:Key="Nunito">pack://application:,,,/Assets/Fonts/#Nunito Light</FontFamily>
+    <FontFamily x:Key="Exo2Regular">pack://application:,,,/Assets/Fonts/#Exo 2 Regular</FontFamily>
+    <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
+        <Setter Property="FontFamily" Value="{StaticResource Exo2Regular}"/>
+    </Style>
 
 
-    <!--<models:ColorDictionary x:Key="colorDictionary">
-        <sys:String x:Key="#ff71c7ec">#b4d7f5</sys:String>
-        <sys:String x:Key="#ffbfd7f5">#b4e2f5</sys:String>
-        <sys:String x:Key="#ffc0d8c0">#dcede6</sys:String>
-        <sys:String x:Key="#ffffffcc">#fff2cc</sys:String>
-        <sys:String x:Key="#fff69c10">#fce2ba</sys:String>
-    </models:ColorDictionary>-->
+    <Style TargetType="TextBox" BasedOn="{StaticResource BaseStyle}">
 
-
-    <Style x:Key="CustomTextBoxStyle" TargetType="models:TextBoxCell">
-        <Setter Property="Background" Value="White" />
-        <Setter Property="MaxLength" Value="1"/>
-
-        <Setter Property="TextAlignment" Value="Right" />
-
+        <!--<Setter Property="Background" Value="White" />-->
+        <Setter Property="Background" Value="{Binding CellBackgroundColor, Converter={StaticResource CellBackgroundColor }}" />
+        <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
+        <Setter Property="Text" Value="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Setter Property="Foreground" Value="{Binding CellForegroundColor, Converter={StaticResource CellForegroundColor}}"/>
+        <Setter Property="Tag" Value="{Binding CellTag}"/>
+        <Setter Property="Cursor" Value="Arrow" />
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="25"/>
+        <Setter Property="CaretBrush" Value="Transparent"/>
+        <!--<Setter Property="FontFamily" Value="Exo2Regular"/>-->
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu />
@@ -55,9 +65,25 @@
         </Setter>
 
         <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" Value="#FFFF78" />
+            </MultiTrigger>
+
+
+
+            <!--<Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FFFF78" />
+                -->
+            <!--<Setter Property="Background" Value="#FDF2E9" />-->
+            <!--
+            </Trigger>-->
             <Trigger Property="IsFocused" Value="True">
-                <Setter Property="Background" Value="{DynamicResource TextBoxBackgroundColor}" />
+                <Setter Property="Background" Value="{Binding CellBackgroundColor, Converter={StaticResource CellBackgroundColor }}" />
             </Trigger>
+
         </Style.Triggers>
 
     </Style>

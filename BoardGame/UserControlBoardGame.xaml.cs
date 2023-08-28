@@ -2,30 +2,28 @@
 using BoardGame.Interfaces;
 using BoardGame.Models;
 using BoardGame.Properties;
+using BoardGame.Utilities;
 using BoardGame.VIewModels;
+using Microsoft.Xaml.Behaviors;
 using Newtonsoft.Json.Linq;
 using PropertyChanged;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Remoting.Channels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Xml.Linq;
+
 
 namespace SudokuGame.UserControls
 {
@@ -42,12 +40,14 @@ namespace SudokuGame.UserControls
     }
 
 
+
     [AddINotifyPropertyChangedInterface]
     public partial class UserControlBoardGame : UserControl
     {
 
         private int indexColor;
         SoundPlayer sound;
+        public bool IsPanelColorVisable { get; set; } = true;
 
 
         BoardViewModel viewModel;
@@ -60,70 +60,9 @@ namespace SudokuGame.UserControls
 
             indexColor = 0;
             viewModel = new BoardViewModel(boardGame, level, actionAfterEndGame);
-            GenerateBoard();
+            //  GenerateBoard();
             DataContext = viewModel;
-            // DataContext = this;
         }
-
-
-        public void GenerateBoard()
-        {
-
-            // Create the grid
-            Grid grid = new Grid();
-
-            // Create the rows and columns of the grid
-            for (int i = 0; i < 9; i++)
-            {
-                grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50) });
-                grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(50) });
-            }
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-
-                    Border border = new Border();
-                    border.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#212F3C"));
-                    OrderBorderThickness(border, i, j);
-                    viewModel.GenerateTextBoxCell(new int[] { i, j });
-                    border.Child = viewModel.TextBoxCells.Last();
-
-                    // Add the text box to the grid
-                    Grid.SetRow(border, i);
-                    Grid.SetColumn(border, j);
-                    grid.Children.Add(border);
-
-                }
-            }
-
-            //  grid.Margin = new Thickness(0, 0, 0, 10);
-            spTable.Children.Insert(0, grid);
-
-        }
-
-        void OrderBorderThickness(Border borCurrent, int i, int j)
-        {
-            //  Border Thickness of borad
-            if (i % 3 == 0)
-            {
-                borCurrent.BorderThickness = new Thickness(0, 1.5, 0, 0);
-            }
-            else if (i == 8)
-            {
-                borCurrent.BorderThickness = new Thickness(0, 0, 0, 1.5);
-            }
-            if (j % 3 == 0)
-            {
-                borCurrent.BorderThickness = new Thickness(1.5, borCurrent.BorderThickness.Top, 0, borCurrent.BorderThickness.Bottom);
-            }
-            else if (j == 8)
-            {
-                borCurrent.BorderThickness = new Thickness(0, borCurrent.BorderThickness.Top, 1.5, borCurrent.BorderThickness.Bottom);
-            }
-        }
-
 
         public void HandlerButtonOutsideGame(GameAction action, string pram = null)
         {
@@ -134,13 +73,13 @@ namespace SudokuGame.UserControls
                 {
                     case GameAction.New_Game:
                         {
-                            viewModel.Board = pram;
+                            viewModel.RestOrNewGame(false, pram);
                             break;
                         }
 
                     case GameAction.Reset_Game:
                         {
-                            viewModel.Board = "clone";
+                            viewModel.RestOrNewGame(true);
                             break;
                         }
 
@@ -148,7 +87,8 @@ namespace SudokuGame.UserControls
                         {
                             if (viewModel.focusedTextBox != null && !viewModel.focusedTextBox.IsReadOnly)
                             {
-                                viewModel.focusedTextBox.Text = pram;
+                                viewModel.focusedTextBox.Text = viewModel.focusedTextBox.Text != pram ? pram : "0";
+                                viewModel.ExecuteAfterInsertVal(null);
                             }
                             break;
                         }
@@ -209,116 +149,72 @@ namespace SudokuGame.UserControls
         }
 
 
-        public void LostFocusCell()
-        {
-            if (viewModel.focusedTextBox != null)
-            {
-                viewModel.focusedTextBox.GotFocus -= viewModel.TextBox_GotFocus;
-            }
 
-        }
         public void RefocusCell()
         {
 
             if (viewModel.focusedTextBox != null)
             {
 
-                viewModel.focusedTextBox.GotFocus += viewModel.TextBox_GotFocus;
+                // viewModel.focusedTextBox.GotFocus += viewModel.TextBox_GotFocus;
             }
         }
 
-
-
-        //private void ArrowClick(object sender, RoutedEventArgs e)
-        //{
-        //    var buttons = stPanelColor.Children.OfType<Button>().
-        //                        Where(
-        //                        Bu => Bu.Content == null
-        //                        ).ToList();
-
-
-        //    Action<List<Button>> AddNewChildernColor = (li) =>
-        //    {
-        //        stPanelColor.Children.OfType<Button>()
-        //                            .Where(b => b.Content == null)
-        //                            .ToList()
-        //                            .ForEach(b => stPanelColor.Children.Remove(b));
-        //        for (int i = 0; i < li.Count; i++)
-        //        {
-        //            stPanelColor.Children.Insert(i + 2, li[i]);
-        //        }
-        //    };
-
-        //    Button temp = null;
-        //    int newIndex = 0;
-        //    if ((sender as Button).Name == "buRight")
-        //    {
-
-        //        // Move to the right
-        //        temp = buttons[0];
-        //        buttons.RemoveAt(0);
-
-        //        // Calculate the new index for the color (wrapping around if needed)
-        //        newIndex = Math.Abs((++indexColor + buttons.Count) % 8);
-        //        temp.Background = Resources[$"CustomColor{newIndex}"] as SolidColorBrush;
-        //        buttons.Add(temp);
-        //    }
-        //    else
-        //    {
-
-        //        // Move to the left
-        //        int indexLast = buttons.Count - 1;
-        //        temp = buttons[indexLast];
-        //        buttons.RemoveAt(indexLast);
-
-        //        // Calculate the new index for the color (wrapping around if needed)
-        //        newIndex = Math.Abs((indexColor-- + 7) % 8);
-        //        temp.Background = Resources[$"CustomColor{newIndex}"] as SolidColorBrush;
-        //        buttons.Insert(0, temp);
-        //    }
-
-
-        //    AddNewChildernColor(buttons);
-        //    indexColor %= 8;
-
-
-        //    //if ((sender as Button).Name == "buRight")
-        //    //{
-        //    //    temp = buttons[0];
-        //    //    buttons.RemoveAt(0);
-        //    //    if (index2 >= 7)
-        //    //    {
-        //    //        index2 = 0;
-        //    //    }
-
-        //    //    buttons.Add(temp);
-        //    //    temp.Background = Resources[$"CustomColor{buttons.Count + (index2++)}"] as SolidColorBrush;
-        //    //    // indexColorLeft++;
-
-        //    //}
-        //    //else
-        //    //{
-        //    //    int indexLast = buttons.Count - 1;
-        //    //    temp = buttons[indexLast];
-        //    //    buttons.RemoveAt(indexLast);
-        //    //    buttons.Insert(0, temp);
-        //    //    if (index2 == 0)
-        //    //    {
-        //    //        index2 = 8;
-        //    //    }
-
-        //    //    // int current = 8 + (--index2) - buttons.Count;
-        //    //    temp.Background = Resources[$"CustomColor{(--index2)}"] as SolidColorBrush;
-        //    //    //temp.Background = Resources[$"CustomColor{indexColorLeft--}"] as SolidColorBrush;
-        //    //    // indexColorRight--;
-        //    //}
-        //    //indexColorLeft %= 8;
-        //    //indexColorRight %= 8;
-
-
-        //}
-
-
-
     }
+
+
 }
+
+
+
+
+/*
+ *  List<Action<int, int, int>> actionsList = new List<Action<int, int, int>>();
+            Action<int, int, int> add = (int num1, int num2, int num3) =>
+            {
+                Debug.WriteLine($"{num1} + {num2} + {num3} = {num1 + num2 + num3}");
+            };
+            Action<int, int, int> mul = null;
+            mul = (int num, int num2, int num3) =>
+            {
+                if (num <= 0)
+                {
+                    return;
+                }
+                Debug.WriteLine(num + " * " + num2 + " * " + num3 + " = " + num * num2 * num3);
+                mul(--num, num2, num3);
+            };
+
+            Action<int, int, int> fib = null;
+            fib = (int index, int adv, int next) =>
+            {
+                if (index == -1)
+                {
+                    Console.WriteLine();
+                    return;
+                }
+                int current = adv;
+                adv += next;
+                next = current;
+                Debug.Write(current + " ");
+                fib(--index, adv, next);
+            };
+
+            actionsList.Add(fib);
+            actionsList.Add(add);
+            actionsList.Add(mul);
+
+            //fib
+            actionsList[0](10, 1, 0);
+
+            //other 
+            for (int i = 1; i < actionsList.Count; i++)
+            {
+                int a = new Random().Next(i, 14);
+                int b = new Random().Next(i, 14);
+                int c = new Random().Next(i, 14);
+                actionsList[i](a, b, c);
+            }
+
+
+ */

@@ -1,4 +1,5 @@
 ﻿using BoardGame.Models;
+using BoardGame.Utilities;
 using Microsoft.Xaml.Behaviors.Layout;
 using SudokuGame.UserControls;
 using System;
@@ -17,84 +18,59 @@ namespace BoardGame.Converters
 
 
 
-    public class MultiBackgroundConverter : IMultiValueConverter
+    public class CellBackgroundConverter : IValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        Dictionary<ModeCellBackgroundColor, string> dictModeCellBackground;
+
+        public CellBackgroundConverter()
+        {
+            dictModeCellBackground = new Dictionary<ModeCellBackgroundColor, string>();
+            dictModeCellBackground.Add(ModeCellBackgroundColor.Without, "#FFFFFF");
+            dictModeCellBackground.Add(ModeCellBackgroundColor.SameValue, "#90EE90");
+            dictModeCellBackground.Add(ModeCellBackgroundColor.SameValueError, "#ffc3d6");
+            dictModeCellBackground.Add(ModeCellBackgroundColor.Focus, "#E5E5E5");
+            dictModeCellBackground.Add(ModeCellBackgroundColor.Related, "#E5E5E5");
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
             string keyColor = ColorDictionaryResource.ColorHexKey.ToLower();
             var valueColor = ColorDictionaryResource.DictFocusColors[keyColor];
+            dictModeCellBackground[ModeCellBackgroundColor.Focus] = keyColor;
+            dictModeCellBackground[ModeCellBackgroundColor.Related] = valueColor;
+            return dictModeCellBackground[(ModeCellBackgroundColor)value];
+            // color green to SameValue 
+            // string hexColorSameValue = "#90EE90";
+            //string hexColorSameValue = "#8adaa5";
 
-            var tb = parameter as TextBox;
-            if (tb.Tag.Equals(values[0]))
-            {
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString(keyColor));
-            }
+            //switch ((ModeCellBackgroundColor)value)
+            //{
+            //    case ModeCellBackgroundColor.Without:
+            //        return Brushes.White;
+            //    // return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#212F3C"));
+            //    case ModeCellBackgroundColor.Focus:
+            //        return new SolidColorBrush((Color)ColorConverter.ConvertFromString(keyColor));
+            //    case ModeCellBackgroundColor.Related:
+            //        return new SolidColorBrush((Color)ColorConverter.ConvertFromString(valueColor));
+            //    case ModeCellBackgroundColor.SameValue:
+            //        // color green
+            //        return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#90EE90"));
+            //    case ModeCellBackgroundColor.SameValueError:
+            //        // color red
+            //        return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ff4d4d"));
+            //    default:
+            //        return Brushes.White;
 
-            string txt = values[1].ToString();
-            if (txt != "" && txt == tb.Text)
-            {
-                string hexColorGreen = "#50C878";
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hexColorGreen));
-            }
-
-
-            var tags1 = (Tuple<int, int, int>)values[0];
-            var tags2 = (Tuple<int, int, int>)tb.Tag;
-
-            if (tags1 != null && (tags1.Item1 == tags2.Item1 || tags1.Item2 == tags2.Item2 ||
-                tags1.Item3 == tags2.Item3))
-            {
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString(valueColor));
-            }
-
-            return Brushes.White;
+            //}
 
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            return null;
         }
+
     }
 
-
-
-    //internal class CellBackgroundConverter : IValueConverter
-    //{
-
-    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        ////  if (parameter is string praString)
-    //        ////  {
-    //        //return Brushes.White;
-    //        ////   }
-
-    //        //   var parameterObj = parameter as object[];
-    //        string keyColor = ColorDictionaryWrapper.ColorHexKey.ToLower();
-    //        var valueColor = ColorDictionaryWrapper.DictFocusColors[keyColor];
-    //        if (parameter.Equals(value))
-    //        {
-    //            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(keyColor));
-    //        }
-    //        var tags1 = (Tuple<int, int, int>)value;
-    //        // var tags2 = (Tuple<int, int, int>)parameterObj[0];
-    //        var tags2 = (Tuple<int, int, int>)parameter;
-
-    //        if (tags1 != null && (tags1.Item1 == tags2.Item1 || tags1.Item2 == tags2.Item2 ||
-    //            tags1.Item3 == tags2.Item3))
-    //        {
-    //            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(valueColor));
-    //        }
-
-    //        return Brushes.White;
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-
-    //        return null;
-    //    }
-
-    //}
 }
