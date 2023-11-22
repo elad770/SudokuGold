@@ -43,14 +43,9 @@ namespace SudokuGame.BoardProvider
 
             // Deserialize the JSON into a dictionary
             difficultyBorads = JsonConvert.DeserializeObject<Dictionary<string, int[][,]>>(jsonContent);
-
         }
 
-<<<<<<< HEAD
         public void GenerateNewBoard(out int[,] board, DifficultyLevel level)
-=======
-        public int[,] GetBoard(string difficulty = "Extreme")
->>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
         {
             //Level = level;
             var borads = difficultyBorads[level.ToString()];
@@ -59,28 +54,14 @@ namespace SudokuGame.BoardProvider
             InitializeBoard(out board);
         }
 
-
-
-        //public int[,] GetBoard(string difficulty = "Extreme")
-        //{
-        //    var borads = difficultyBorads[difficulty];
-        //    int boradRandom = new Random().Next(0, borads.Length);
-        //    //_array = (int[,])borads[boradRandom].Clone();
-        //    _arrClone = (int[,])borads[boradRandom].Clone();
-        //    return CloneBorad();
-        //}
-
         public void InitializeBoard(out int[,] board)
         {
             board = _array = (int[,])_arrClone.Clone();
         }
-<<<<<<< HEAD
-
 
         //public bool IsBoardValid(int[] parms)
         public bool IsBoardValid(int value, int indexRow, int indexCol)
 =======
-        
         public bool IsBoardValid(int[] parms)
 >>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
         {
