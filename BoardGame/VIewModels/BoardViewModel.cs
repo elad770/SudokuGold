@@ -125,7 +125,7 @@ namespace BoardGame.VIewModels
         }
 
 
-        public void OptionalEraseReplaceNum(string num)
+        public void OptionalEraseOrReplaceNum(string num)
         {
             if (focusedTextBox != null && !focusedTextBox.IsReadOnly)
             {

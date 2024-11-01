@@ -181,7 +181,7 @@ namespace SudokuGame.Pages
         private void Button_PreviewMouseDown_Number(object sender, MouseButtonEventArgs e)
         {
             string buttonContent = ((Button)sender).Content.ToString();
-            BoradVM.OptionalEraseReplaceNum(buttonContent);
+            BoradVM.OptionalEraseOrReplaceNum(buttonContent);
             e.Handled = true;
         }
 
