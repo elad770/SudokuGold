@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace BoardGame.Interfaces
 {
-    public interface ICombinedGameBoardProvider : IGameBoardProvider, IValidationGameBoardProvider, IDifficultyLevel
+    public interface ICombinedGameBoardProvider : IGameBoardProvider, IValidationGameBoardProvider
     {
     }
 

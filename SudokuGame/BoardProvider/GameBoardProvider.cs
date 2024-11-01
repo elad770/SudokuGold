@@ -15,6 +15,17 @@ using System.Windows.Documents;
 namespace SudokuGame.BoardProvider
 {
 
+    public enum DifficultyLevel
+    {
+        Impossible,
+        Extreme,
+        Hard,
+        Medium,
+        Easy,
+        VeryEasy
+    }
+
+
     public class GameBoardProvider : ICombinedGameBoardProvider
     {
 
@@ -25,14 +36,13 @@ namespace SudokuGame.BoardProvider
 
 
 
-        public DifficultyLevel Level { get; private set; }
+        public DifficultyLevel Level { get; set; }
 
 
 
         public GameBoardProvider()
         {
             ReadJsonOfBorad();
-            int[,] arr = new int[10, 10];
         }
 
         private void ReadJsonOfBorad()
@@ -45,32 +55,33 @@ namespace SudokuGame.BoardProvider
             difficultyBorads = JsonConvert.DeserializeObject<Dictionary<string, int[][,]>>(jsonContent);
         }
 
-        public void GenerateNewBoard(out int[,] board, DifficultyLevel level)
+        private void InternalGenerateNewBoard()
         {
-            //Level = level;
-            var borads = difficultyBorads[level.ToString()];
+            var borads = difficultyBorads[Level.ToString()];
             int boradRandom = new Random().Next(0, borads.Length);
             _arrClone = (int[,])borads[boradRandom].Clone();
-            InitializeBoard(out board);
+            _array = (int[,])_arrClone.Clone();
         }
 
-        public void InitializeBoard(out int[,] board)
+        public void GenerateNewBoard(out int[,] borad)
         {
-            board = _array = (int[,])_arrClone.Clone();
+            InternalGenerateNewBoard();
+            borad = _array;
         }
 
-        //public bool IsBoardValid(int[] parms)
+        public void InitializeBoard(out int[,] borad)
+        {
+            if(_arrClone == null)
+            {
+                InternalGenerateNewBoard();
+            }
+            borad = _array;
+        }
+
+
         public bool IsBoardValid(int value, int indexRow, int indexCol)
-=======
-        public bool IsBoardValid(int[] parms)
->>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
         {
-            //if (parms.Length != 3)
-            //{
-            //    throw new ArgumentException("Invalid number of parameters. Please provide the value, row index, and column index.");
-            //}
-            //  int value = parms[0], indexRow = parms[1], indexCol = parms[2];
-
+           
             var lambdaIsRowColSubMatrix = new Func<int, int, bool>((row, col) =>
             {
                 if (indexRow == row && indexCol == col || value != _array[row, col])
@@ -133,16 +144,8 @@ namespace SudokuGame.BoardProvider
             return true;
         }
 
-<<<<<<< HEAD
-        //public List<int[]> GetIndexesToChnageColor(params int[] para)
-        //{
-        //    return GetIndexesToChnageColor(new int[] { para[0], para[1], para[2] }, para[3]);
-        //}
 
         public List<int[]> GetIndexesLocationError(params int[] prmas)
-=======
-        public List<int[]> GetIndexesLocationError(int[] prmas)
->>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
         {
 
             List<int[]> liIndexesChnage = new List<int[]>();

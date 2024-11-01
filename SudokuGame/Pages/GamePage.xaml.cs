@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using BoardGame.VIewModels;
+using PropertyChanged;
 using SudokuGame.BoardProvider;
 using SudokuGame.UserControls;
 using System;
@@ -26,7 +27,7 @@ namespace SudokuGame.Pages
     /// Interaction logic for GamePage.xaml
     /// </summary>
     /// 
-    [AddINotifyPropertyChangedInterface]
+   // [AddINotifyPropertyChangedInterface]
     public partial class GamePage : Page
     {
 
@@ -40,7 +41,12 @@ namespace SudokuGame.Pages
         private DateTime startTime;
         private TimeSpan elapsedTime;
 
+        public BoardViewModel BoradVM { get; set; }
+
+
         public ObservableCollection<bool> Stars { get; set; }
+        public GameBoardProvider GameBoardProvider { get; set; }
+
         public string PopupTitle { get; set; }
         public string PopupContent { get; set; }
 
@@ -70,6 +76,8 @@ namespace SudokuGame.Pages
         {
             InitializeComponent();
 
+
+
             Action actionAfterEndGame = () =>
             {
                 PopupTitle = "Congratulations!";
@@ -80,7 +88,16 @@ namespace SudokuGame.Pages
                 timer.Stop();
             };
 
-            user = new UserControlBoardGame(new GameBoardProvider(), currentdiff, actionAfterEndGame);
+            DifficultyLevel difficultyLevel = DifficultyLevel.Medium;
+            Enum.TryParse(currentdiff, true, out difficultyLevel);
+            
+            GameBoardProvider = new GameBoardProvider()
+            {
+                Level = difficultyLevel
+            };
+
+            BoradVM = new BoardViewModel(GameBoardProvider, actionAfterEndGame);
+            user = new UserControlBoardGame(BoradVM);
 
 
             timer = new DispatcherTimer();
@@ -109,7 +126,8 @@ namespace SudokuGame.Pages
         private void PopupOK_Click(object sender, RoutedEventArgs e)
         {
             PopupHost.IsOpen = false;
-            user.HandlerButtonOutsideGame(GameAction.New_Game, currentdiff);
+            BoradVM.RestOrNewGame(false);
+            //user.HandlerButtonOutsideGame(GameAction.New_Game, currentdiff);
             ResetTimer();
         }
 
@@ -129,7 +147,13 @@ namespace SudokuGame.Pages
             config.AppSettings.Settings["Level"].Value = currentdiff;
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
-            user.HandlerButtonOutsideGame(GameAction.New_Game, currentdiff);
+
+            Enum.TryParse(currentdiff, true, out DifficultyLevel level);
+            GameBoardProvider.Level = level;
+
+            //new game is defualt false
+            BoradVM.RestOrNewGame(false);
+
             UpdateStars();
             ((MainWindow)Application.Current.MainWindow).Title = WindowTitle;
             ResetTimer();
@@ -157,7 +181,7 @@ namespace SudokuGame.Pages
         private void Button_PreviewMouseDown_Number(object sender, MouseButtonEventArgs e)
         {
             string buttonContent = ((Button)sender).Content.ToString();
-            user.HandlerButtonOutsideGame(GameAction.Number_Optional_Or_Erase, buttonContent);
+            BoradVM.OptionalEraseReplaceNum(buttonContent);
             e.Handled = true;
         }
 
@@ -198,26 +222,7 @@ namespace SudokuGame.Pages
 
             switch (((Button)sender).Name)
             {
-                case "buNewGame":
-                    {
-                        user.HandlerButtonOutsideGame(GameAction.New_Game, currentdiff);
-                        ResetTimer();
-                        return;
-                    }
-
-                case "buResetGame":
-                    {
-                        user.HandlerButtonOutsideGame(GameAction.Reset_Game);
-                        ResetTimer();
-                        return;
-                    }
-
-                case "buErase":
-                    {
-                        user.HandlerButtonOutsideGame(GameAction.Number_Optional_Or_Erase, "");
-                        break;
-                    }
-
+              
                 case "buUndo":
                     break;
                 case "buMenu":

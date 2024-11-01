@@ -70,7 +70,6 @@
     <Compile Include="Converters\CellBackgroundConverter.cs" />
     <Compile Include="Converters\CellForegroundColorConverter.cs" />
     <Compile Include="Converters\ColorBorderByTagConverter.cs" />
-    <Compile Include="Interfaces\IDifficultyLevel.cs" />
     <Compile Include="Interfaces\ICombinedGameBoardProvider.cs" />
     <Compile Include="Interfaces\IGameBoardProvider.cs" />
     <Compile Include="Interfaces\IValidationGameBoardProvider.cs" />

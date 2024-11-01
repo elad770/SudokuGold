@@ -49,61 +49,19 @@ namespace SudokuGame.UserControls
         SoundPlayer sound;
         public bool IsPanelColorVisable { get; set; } = true;
 
+        //BoardViewModel viewModel;
 
-        BoardViewModel viewModel;
-        public UserControlBoardGame(ICombinedGameBoardProvider boardGame, string level, Action actionAfterEndGame)
+        public UserControlBoardGame(BoardViewModel boradVM/*ICombinedGameBoardProvider boardGame, Action actionAfterEndGame*/)
         {
             InitializeComponent();
 
-            string soundFilePath = System.IO.Path.Combine("..", "..", "..", "BoardGame/Assets/Sounds/right-left-arrow.wav");
+            string soundFilePath = /*System.IO.*/Path.Combine("..", "..", "..", "BoardGame/Assets/Sounds/right-left-arrow.wav");
             sound = new SoundPlayer(soundFilePath);
-
             indexColor = 0;
-            viewModel = new BoardViewModel(boardGame, level, actionAfterEndGame);
-            //  GenerateBoard();
-            DataContext = viewModel;
+            DataContext = boradVM;
         }
 
-        public void HandlerButtonOutsideGame(GameAction action, string pram = null)
-        {
-            try
-            {
-
-                switch (action)
-                {
-                    case GameAction.New_Game:
-                        {
-                            viewModel.RestOrNewGame(false, pram);
-                            break;
-                        }
-
-                    case GameAction.Reset_Game:
-                        {
-                            viewModel.RestOrNewGame(true);
-                            break;
-                        }
-
-                    case GameAction.Number_Optional_Or_Erase:
-                        {
-                            if (viewModel.focusedTextBox != null && !viewModel.focusedTextBox.IsReadOnly)
-                            {
-                                viewModel.focusedTextBox.Text = viewModel.focusedTextBox.Text != pram ? pram : "0";
-                                viewModel.ExecuteAfterInsertVal(null);
-                            }
-                            break;
-                        }
-
-                    default:
-                        break;
-                }
-
-            }
-            catch
-            {
-
-            }
-
-        }
+       
 
         private void Change_Background_Color(object sender, RoutedEventArgs e)
         {
@@ -153,16 +111,13 @@ namespace SudokuGame.UserControls
         public void RefocusCell()
         {
 
-            if (viewModel.focusedTextBox != null)
-            {
+            //if (viewModel.focusedTextBox != null)
+            //{
 
-                // viewModel.focusedTextBox.GotFocus += viewModel.TextBox_GotFocus;
-            }
+            //    // viewModel.focusedTextBox.GotFocus += viewModel.TextBox_GotFocus;
+            //}
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> 56301c45d9e64c002b8f6b05440fb3f9ad799768
     }
 
 

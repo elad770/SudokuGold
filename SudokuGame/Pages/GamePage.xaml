@@ -137,8 +137,22 @@
                             </StackPanel.Resources>
 
                         </StackPanel>
+                        <Button Height="35" Margin="0,10,25,0" Name="buNewGame" 
+                                Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
+                                Width="195"
+                                Content="New Game"
+                                Command="{Binding boradVM.RestOrNewGameCommand}"
+                                CommandParameter="false"/>
 
-                        <Button Height="35" 
+                        <Button Height="35"
+                                Margin="0,10,25,10"
+                                Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
+                                Name="buResetGame"
+                                Width="195"
+                                Content="Reset Game"
+                                Command="{Binding boradVM.RestOrNewGameCommand}"
+                                CommandParameter="true"/>       
+                        <!--<Button Height="35" 
                                 Margin="0,10,25,0" Name="buNewGame"
                         Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                         Width="195" Content="New Game" PreviewMouseDown="Button_click_Option"/>
@@ -147,7 +161,7 @@
                         Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                                 
                                 Name="buResetGame"
-                        Width="195" Content="Reset Game" PreviewMouseDown="Button_click_Option"/>
+                        Width="195" Content="Reset Game" PreviewMouseDown="Button_click_Option"/>-->
 
                     </StackPanel>
                 </Grid>

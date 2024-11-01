@@ -36,12 +36,19 @@ namespace BoardGame.VIewModels
         private Action actionAfterEndGame;
         
         private ICombinedGameBoardProvider gameBoard;
-        
+
+       
+
+
         private static int[,] ArrBorad;
-        
+
         #endregion
 
         #region Propites
+
+
+        public ICommand RestOrNewGameCommand { get; }
+
         public ICommand ChangeBackgroundColorCommand { get; }
 
         public ICommand FocusTextBoxCommand { get; }
@@ -54,12 +61,13 @@ namespace BoardGame.VIewModels
         #endregion
 
         #region Constructor
-        public BoardViewModel(ICombinedGameBoardProvider gameBoard, string boardLevel, Action actionAfterEndGame)
+        public BoardViewModel(ICombinedGameBoardProvider iGameBoard, Action actionAfterEndGame)
         {
-            this.gameBoard = gameBoard;
-            Enum.TryParse(boardLevel, out DifficultyLevel level);
-            this.gameBoard.GenerateNewBoard(out ArrBorad, level);
+            gameBoard = iGameBoard;
+            gameBoard.GenerateNewBoard(out ArrBorad);
             FillCollectionTextBoxCells();
+
+            RestOrNewGameCommand = new RelayCommand(RestOrNewGame);
             ChangeBackgroundColorCommand = new RelayCommand(ChangeBackgroundColor);
             FocusTextBoxCommand = new RelayCommand(FocusTextBox);
             AfterInsertValToCell = new RelayCommand(ExecuteAfterInsertVal);
@@ -107,7 +115,6 @@ namespace BoardGame.VIewModels
             {
                 var locations = BoardUtility.GenerateIndexRowColSubMatrix(i);
                 int num = ArrBorad[locations.Item1, locations.Item2];
-                // bool isReadOnly = num != 0;
                 var cell = new CellContect()
                 {
                     CellTag = locations
@@ -117,18 +124,28 @@ namespace BoardGame.VIewModels
             }
         }
 
-        public void RestOrNewGame(bool isRest, string _level = null)
+
+        public void OptionalEraseReplaceNum(string num)
         {
+            if (focusedTextBox != null && !focusedTextBox.IsReadOnly)
+            {
+                focusedTextBox.Text = focusedTextBox.Text != num ? num : "0";
+                ExecuteAfterInsertVal(null);
+            }
+        }
+
+        public void RestOrNewGame(object obj)
+        {
+            bool isRest = bool.Parse(obj.ToString());
             try
             {
                 if (isRest)
                 {
-                    this.gameBoard.InitializeBoard(out ArrBorad);
+                    gameBoard.InitializeBoard(out ArrBorad);
                 }
                 else
                 {
-                    Enum.TryParse(_level.Replace(" ", ""), out DifficultyLevel level);
-                    this.gameBoard.GenerateNewBoard(out ArrBorad, level);
+                    gameBoard.GenerateNewBoard(out ArrBorad);
                 }
 
                 for (int i = 0; i < FullBorad.Count; i++)
