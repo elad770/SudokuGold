@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace SudokuGame.BoardProvider
+namespace SudokuGame
 {
 
     public enum DifficultyLevel
@@ -29,7 +29,7 @@ namespace SudokuGame.BoardProvider
     public class GameBoardProvider : ICombinedGameBoardProvider
     {
 
-        private int[,] _array;
+        public int[,] Borad { get; set; }
         private int[,] _arrClone;
         private string filePath = "borads_game\\boards.json";
         private Dictionary<string, int[][,]> difficultyBorads;
@@ -60,22 +60,26 @@ namespace SudokuGame.BoardProvider
             var borads = difficultyBorads[Level.ToString()];
             int boradRandom = new Random().Next(0, borads.Length);
             _arrClone = (int[,])borads[boradRandom].Clone();
-            _array = (int[,])_arrClone.Clone();
+            Borad = (int[,])_arrClone.Clone();
         }
 
-        public void GenerateNewBoard(out int[,] borad)
+        public void GenerateNewBoard(/*out int[,] borad*/)
         {
             InternalGenerateNewBoard();
-            borad = _array;
+            //borad = Borad;
         }
 
-        public void InitializeBoard(out int[,] borad)
+        public void InitializeBoard(/*out int[,] borad*/)
         {
             if(_arrClone == null)
             {
                 InternalGenerateNewBoard();
             }
-            borad = _array;
+            else
+            {
+                Borad = (int[,])_arrClone.Clone();
+            }
+            //borad = _array;
         }
 
 
@@ -84,7 +88,7 @@ namespace SudokuGame.BoardProvider
            
             var lambdaIsRowColSubMatrix = new Func<int, int, bool>((row, col) =>
             {
-                if (indexRow == row && indexCol == col || value != _array[row, col])
+                if (indexRow == row && indexCol == col || value != Borad[row, col])
                 {
                     return true;
                 }
@@ -111,7 +115,7 @@ namespace SudokuGame.BoardProvider
             {
                 Swap(ref r, ref c);
             }
-            int rows = _array.GetLength(0);
+            int rows = Borad.GetLength(0);
             for (int i = 0; i < rows; i++)
             {
 
@@ -155,7 +159,7 @@ namespace SudokuGame.BoardProvider
 
             var lambdaPotentialIndex = new Func<int, int, bool>((r, c) =>
             {
-                if (_array[r, c] == value)
+                if (Borad[r, c] == value)
                 {
 
                     if (potentialIndexRow == -1)

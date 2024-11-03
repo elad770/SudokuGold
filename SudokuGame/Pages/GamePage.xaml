@@ -3,15 +3,21 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SudokuGame.Pages"
+      xmlns:local="clr-namespace:SudokuGame"
+      xmlns:boardGame="clr-namespace:BoardGame.Utilities;assembly=BoardGame"
       xmlns:conv="clr-namespace:SudokuGame"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="GamePage" FontFamily="Copperplate Gothic Light">
+      Title="GamePage" DataContext="{x:Static local:GamePageVM.Instance}" FontFamily="Copperplate Gothic Light">
     <Page.Resources>
         <conv:StarColorConverter x:Key="StarColorConverter"/>
+        <conv:LevelToColorConverter x:Key="LevelToColorConverter"/>
+
     </Page.Resources>
+
+
+
     <Grid Name="GridMain">
         <Grid>
             <Grid.RowDefinitions>
@@ -31,21 +37,27 @@
                     <StackPanel Name="stPanelDiff"  VerticalAlignment="Top" Margin="0,0,0,35" Orientation="Horizontal">
                         <StackPanel.Resources>
                             <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
-                                <Setter Property="Foreground" Value="Black"/>
+                                <!--<Setter Property="Foreground" Value="Black"/>-->
                                 <Setter Property="Cursor" Value="Hand" />
                                 <Setter Property="FontSize" Value="14"/>
                                 <Setter Property="Margin" Value="0,0,1,0"/>
-                                <!--<Setter Property="FontFamily" Value="Copperplate Gothic Light"/>-->
-                                <EventSetter Event="Click" Handler="Click_Change_Difficulty" />
+                                <Setter Property="Command" Value="{Binding DifficultyOfGameCommand}"/>
+                                <Setter Property="CommandParameter" Value="{Binding Tag, RelativeSource={RelativeSource Self}}"/>
                             </Style>
 
                         </StackPanel.Resources>
-                        <Button  Content="Impossible"  />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Impossible}}" Tag="Impossible" Content="Impossible" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Extreme}}" Tag="Extreme"  Content="Extreme" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Hard}}"  Tag="Hard" Content="Hard" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Medium}}" Tag="Medium" Content="Medium" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Easy}}" Tag="Easy" Content="Easy" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.VeryEasy}}" Tag="VeryEasy" Content="Very Easy" />
+                        <!--<Button  Content="Impossible"  />
                         <Button  Content="Extreme"   />
                         <Button  Content="Hard"  />
                         <Button Name="buMedium" Content="Medium"   />
                         <Button  Content="Easy"  />
-                        <Button  Content="Very Easy"  />
+                        <Button  Content="Very Easy"  />-->
                     </StackPanel>
                     <ItemsControl Height="auto" Margin="150,32,0,15" HorizontalAlignment="Left"  ItemsSource="{Binding Stars}">
                         <ItemsControl.ItemsPanel>
@@ -60,18 +72,20 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <TextBlock  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,100,0"   Width="auto" Name="timerTextBlock" Foreground="Black"  FontSize="17" />
+                    <TextBlock  VerticalAlignment="Top" HorizontalAlignment="Right" Text="{Binding TimerText}" Margin="0,10,100,0"   Width="auto" Name="timerTextBlock" Foreground="Black"  FontSize="17" />
 
-                    <StackPanel Name="stPanelSecond"  HorizontalAlignment="Right" Width="250" VerticalAlignment="Center"  Margin="0,50,30,0">
+                    <StackPanel Name="stPanelSecond"  HorizontalAlignment="Right" Width="250" VerticalAlignment="Center"  Margin="0,0,30,0">
 
-                        <StackPanel Orientation="Horizontal"  Name="stPanelButtonSpical" Margin="0,0,0,70">
+                        <StackPanel Orientation="Horizontal"  Name="stPanelButtonSpical" Margin="0,0,0,30">
                             <StackPanel.Resources>
                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionLightButton}">
                                     <Setter Property="Margin"  Value="0,0,15,0"/>
                                     <Setter Property="Width"  Value="45"/>
                                     <Setter Property="Height"  Value="45"/>
                                     <Setter Property="Background" Value="#dce3ed"/>
-                                    <EventSetter Event="PreviewMouseDown" Handler="Button_click_Option"/>
+                                    <Setter Property="Command" Value="{Binding MenuGameCommand}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
+                                    <!--<EventSetter Event="PreviewMouseDown" Handler="Button_click_Option"/>-->
                                 </Style>
                                 <Style TargetType="Image">
                                     <Setter Property="Width"  Value="20"/>
@@ -94,7 +108,7 @@
                             </StackPanel>
 
                             <StackPanel>
-                                <Button Name="buUndo">
+                                <Button Name="buUndo" Tag="{x:Static boardGame:GameAction.Undo}">
                                     <Image Source="../Assets/icons8-undo-45.png"/>
 
                                 </Button>
@@ -102,7 +116,7 @@
                             </StackPanel>
 
                             <StackPanel>
-                                <Button Name="buPencil">
+                                <Button Name="buPencil" Tag="{x:Static boardGame:GameAction.Pencil_Mode}">
                                     <Image Source="../Assets/icons8-pencil-45.png" />
                                     <!--<materialDesign:PackIcon Height="20" Width="20" Kind="Pencil" VerticalAlignment="Center"/>-->
                                     <!--<materialDesign:Badged  />-->
@@ -110,7 +124,7 @@
                                 <TextBlock  Text="Pencil" />
                             </StackPanel>
                             <StackPanel>
-                                <Button Name="buErase">
+                                <Button Name="buErase" Tag="{x:Static boardGame:GameAction.Number_Optional_Or_Erase}">
                                     <Image Source="../Assets/icons8-erase-45.png"  />
                                     <!--<materialDesign:PackIcon Kind="Delete"  VerticalAlignment="Center"/>-->
                                 </Button>
@@ -118,40 +132,55 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <!--Stack of numbers buttons  game-->
-                        <StackPanel Name="stPanelNumbers"  Margin="10,0" Orientation="Vertical">
-                            <StackPanel.Resources>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Orientation" Value="Horizontal"/>
-                                    <Setter Property="Margin" Value="0,10,0,0"/>
-                                </Style>
+                        <UniformGrid Rows="3" Columns="3" Margin="10,20,25,0" Width="{Binding ElementName=buNewGame, Path=Width}" >
+                            <UniformGrid.Resources>
+
                                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignPaperSecondaryDarkButton}">
-                                    <!--<Setter Property="FontFamily" Value="{StaticResource CustomFont}"/>-->
                                     <Setter Property="FontSize" Value="25" />
-                                    <Setter Property="Margin" Value="0,0,8,0"/>
+                                    <Setter Property="Margin" Value="0,0,0,4"/>
                                     <Setter Property="Background" Value="#eaeef4" />
                                     <Setter Property="Height" Value="55" />
                                     <Setter Property="Width" Value="60" />
+                                    <Setter Property="Command" Value="{Binding ButtonAddNumToBoardCommand}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+                                    <!--<Setter Property="Height" Value="55" />
+                                  -->
+                                    <!--
+                                    -->
                                     <Setter Property="Foreground" Value="#0072e3" />
+                                </Style>
+                            </UniformGrid.Resources>
+                            
+                                <!-- Define buttons with numbers as tags -->
+                                <Button Content="1"/>
+                                <Button Content="2"/>
+                                <Button Content="3"/>
+                                <Button Content="4"/>
+                                <Button Content="5"/>
+                                <Button Content="6"/>
+                                <Button Content="7"/>
+                                <Button Content="8"/>
+                                <Button Content="9"/>
+                            </UniformGrid>
+                        <!--</StackPanel>-->
+                        <StackPanel  Margin="0,10,25,0">
+                            <StackPanel.Resources>
+
+                                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedSecondaryButton}">
+                                    <Setter Property="Margin" Value="0,0,0,10"/>
+                                    <Setter Property="Width" Value="195" />
+                                    <Setter Property="Command" Value="{Binding RestOrNewGameCommand}"/>
+                                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
                                 </Style>
                             </StackPanel.Resources>
 
-                        </StackPanel>
-                        <Button Height="35" Margin="0,10,25,0" Name="buNewGame" 
-                                Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
-                                Width="195"
-                                Content="New Game"
-                                Command="{Binding boradVM.RestOrNewGameCommand}"
-                                CommandParameter="false"/>
 
-                        <Button Height="35"
-                                Margin="0,10,25,10"
-                                Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
-                                Name="buResetGame"
-                                Width="195"
-                                Content="Reset Game"
-                                Command="{Binding boradVM.RestOrNewGameCommand}"
-                                CommandParameter="true"/>       
+                            <Button  Name="buNewGame" Content="New Game" Tag="false"/>
+                            <Button  Name="buResetGame" Content="Reset Game"  Tag="true"/>
+                        </StackPanel>
+                      
+
+                      
                         <!--<Button Height="35" 
                                 Margin="0,10,25,0" Name="buNewGame"
                         Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
@@ -164,6 +193,9 @@
                         Width="195" Content="Reset Game" PreviewMouseDown="Button_click_Option"/>-->
 
                     </StackPanel>
+
+                    <ContentControl Content="{Binding UserBoardGame}" Margin="15,60,0,0" />
+
                 </Grid>
             </Border>
         </Grid>
@@ -176,7 +208,7 @@
                                 <TextBlock Text="{Binding PopupTitle}" FontSize="21" Foreground="White" Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
                             </StackPanel>
                             <TextBlock FontSize="14"  Text="{Binding PopupContent}" Foreground="White" TextWrapping="Wrap"/>
-                            <Button  Content="OK" Width="60" Click="PopupOK_Click" Style="{StaticResource MaterialDesignFlatAccentBgButton}" HorizontalAlignment="Center" Margin="0 20 0 0"/>
+                            <!--<Button  Content="OK" Width="60" Click="PopupOK_Click" Style="{StaticResource MaterialDesignFlatAccentBgButton}" HorizontalAlignment="Center" Margin="0 20 0 0"/>-->
                         </StackPanel>
                     </materialDesign:Card>
                 </materialDesign:DialogHost.DialogContent>
@@ -194,7 +226,7 @@
                                     <Setter Property="FontSize" Value="20" />
                                     <Setter Property="Background" Value="#0077be"/>
                                     <Setter Property="Foreground" Value="Gold"/>
-                                    <EventSetter Event="PreviewMouseDown" Handler="Menu_Button"/>
+                                    <!--<EventSetter Event="PreviewMouseDown" Handler="Menu_Button"/>-->
                                 </Style>
                             </StackPanel.Resources>
                             <TextBlock  Width="auto" HorizontalAlignment="Center" Margin="0,0,0,5" Height="25" Foreground="White">Menu</TextBlock>

@@ -1,6 +1,6 @@
 ﻿using BoardGame.Interfaces;
 using BoardGame.Resources;
-using SudokuGame.BoardProvider;
+using SudokuGame;
 using SudokuGame.UserControls;
 using System;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace SudokuGame
 
         public MainWindow()
         {
-
+         
             int[] nums = new int[] { -1, 0, 1, 2, -1, -4 };
             nums = nums.OrderBy(x => x).ToArray();
             InitializeComponent();
@@ -89,7 +89,7 @@ namespace SudokuGame
                 // 
 
                 soundPlayer.Stop();
-                contentFrame.Navigate(GamePage.Instance);
+                contentFrame.Navigate(new GamePage());
                 spMainButtons.Visibility = Visibility.Hidden;
                 IsButtonVisible = false;
                 Mouse.OverrideCursor = Cursors.Wait;

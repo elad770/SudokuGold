@@ -32,12 +32,12 @@ namespace SudokuGame.UserControls
     /// </summary>
 
 
-    public enum GameAction
-    {
-        New_Game,
-        Reset_Game,
-        Number_Optional_Or_Erase,
-    }
+    //public enum GameAction
+    //{
+    //    New_Game,
+    //    Reset_Game,
+    //    Number_Optional_Or_Erase,
+    //}
 
 
 

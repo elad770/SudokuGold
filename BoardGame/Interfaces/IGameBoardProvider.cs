@@ -11,11 +11,9 @@ namespace SudokuGame.UserControls.Interfaces
     public interface IGameBoardProvider
     {
 
-       // void GenerateNewBoard(out int[,] borad, DifficultyLevel Level);
+        void InitializeBoard(/*out int[,] board*/);
 
-        void InitializeBoard(out int[,] board);
-
-        void GenerateNewBoard(out int[,] borad);
+        void GenerateNewBoard(/*out int[,] borad*/);
         //int[,] CloneBorad();
 
     }

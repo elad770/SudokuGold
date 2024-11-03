@@ -34,18 +34,20 @@ namespace BoardGame.VIewModels
         private Dictionary<string, SoundPlayer> soundPlayers;
         
         private Action actionAfterEndGame;
-        
-        private ICombinedGameBoardProvider gameBoard;
 
-       
+        //private ICombinedGameBoardProvider gameBoard;
 
 
-        private static int[,] ArrBorad;
+
+
+        // private static int[,] ArrBorad;
 
         #endregion
 
         #region Propites
 
+
+        public ICombinedGameBoardProvider GameBoard { get; set; }
 
         public ICommand RestOrNewGameCommand { get; }
 
@@ -63,11 +65,13 @@ namespace BoardGame.VIewModels
         #region Constructor
         public BoardViewModel(ICombinedGameBoardProvider iGameBoard, Action actionAfterEndGame)
         {
-            gameBoard = iGameBoard;
-            gameBoard.GenerateNewBoard(out ArrBorad);
+            GameBoard = iGameBoard;
+            GameBoard.InitializeBoard();
+
+            //gameBoard.GenerateNewBoard(out ArrBorad);
             FillCollectionTextBoxCells();
 
-            RestOrNewGameCommand = new RelayCommand(RestOrNewGame);
+            //RestOrNewGameCommand = new RelayCommand(ClearOrNewGame);
             ChangeBackgroundColorCommand = new RelayCommand(ChangeBackgroundColor);
             FocusTextBoxCommand = new RelayCommand(FocusTextBox);
             AfterInsertValToCell = new RelayCommand(ExecuteAfterInsertVal);
@@ -114,7 +118,7 @@ namespace BoardGame.VIewModels
             for (int i = 0; i < 81; i++)
             {
                 var locations = BoardUtility.GenerateIndexRowColSubMatrix(i);
-                int num = ArrBorad[locations.Item1, locations.Item2];
+                int num = GameBoard.Borad[locations.Item1, locations.Item2];
                 var cell = new CellContect()
                 {
                     CellTag = locations
@@ -125,7 +129,7 @@ namespace BoardGame.VIewModels
         }
 
 
-        public void OptionalEraseOrReplaceNum(string num)
+        private void OptionalEraseOrReplaceNum(string num)
         {
             if (focusedTextBox != null && !focusedTextBox.IsReadOnly)
             {
@@ -134,24 +138,23 @@ namespace BoardGame.VIewModels
             }
         }
 
-        public void RestOrNewGame(object obj)
+        public void ClearOrNewGame(bool isRest)
         {
-            bool isRest = bool.Parse(obj.ToString());
             try
             {
                 if (isRest)
                 {
-                    gameBoard.InitializeBoard(out ArrBorad);
+                    GameBoard.InitializeBoard();
                 }
                 else
                 {
-                    gameBoard.GenerateNewBoard(out ArrBorad);
+                    GameBoard.GenerateNewBoard();
                 }
 
                 for (int i = 0; i < FullBorad.Count; i++)
                 {
                     var cell = FullBorad[i];
-                    int num = ArrBorad[cell.CellTag.Item1, cell.CellTag.Item2];
+                    int num = GameBoard.Borad[cell.CellTag.Item1, cell.CellTag.Item2];
                     FillCell(cell, num);
                 }
             }
@@ -174,7 +177,7 @@ namespace BoardGame.VIewModels
             try
             {
                 var tag = focusedTextBox.Tag as Tuple<int, int, int>;
-                if (focusedTextBox.Text != ArrBorad[tag.Item1, tag.Item2].ToString() && !focusedTextBox.IsReadOnly)
+                if (focusedTextBox.Text != GameBoard.Borad[tag.Item1, tag.Item2].ToString() && !focusedTextBox.IsReadOnly)
                 {
                     int val = focusedTextBox.Text != "" ? int.Parse(focusedTextBox.Text) : 0;
 
@@ -212,11 +215,11 @@ namespace BoardGame.VIewModels
         {
 
             var cell = FullBorad[r * 9 + c % 9];
-            int preValueChange = ArrBorad[r, c];
+            int preValueChange = GameBoard.Borad[r, c];
             if (num != 0)
             {
 
-                if (gameBoard.IsBoardValid(num, r, c))
+                if (GameBoard.IsBoardValid(num, r, c))
                 {
                     cell.CellForegroundColor = ModeCellForegroundColor.Normal;
                     soundPlayers["success-sound"].Play();
@@ -227,16 +230,16 @@ namespace BoardGame.VIewModels
                     soundPlayers["error-sound"].Play();
                 }
 
-                ArrBorad[r, c] = num;
-                UpdateErrorCellsForeground(gameBoard.GetIndexesLocationError(preValueChange, r, c), cell);
+                GameBoard.Borad[r, c] = num;
+                UpdateErrorCellsForeground(GameBoard.GetIndexesLocationError(preValueChange, r, c), cell);
 
             }
-            else if (ArrBorad[r, c] != 0)
+            else if (GameBoard.Borad[r, c] != 0)
             {
 
                 cell.CellForegroundColor = ModeCellForegroundColor.Normal;
-                ArrBorad[r, c] = num;
-                UpdateErrorCellsForeground(gameBoard.GetIndexesLocationError(preValueChange, r, c), cell);
+                GameBoard.Borad[r, c] = num;
+                UpdateErrorCellsForeground(GameBoard.GetIndexesLocationError(preValueChange, r, c), cell);
             }
 
             if (IsBoardSolved())
@@ -294,6 +297,24 @@ namespace BoardGame.VIewModels
                 cell.CellForegroundColor == ModeCellForegroundColor.Normal ||
                 cell.CellForegroundColor == ModeCellForegroundColor.ReadOnly)
              );
+        }
+
+        public void OptionalActions(GameAction act, string eraseOrReplaceNum = "0")
+        {
+
+            switch (act)
+            {
+                case GameAction.Pencil_Mode:
+                    break;
+                case GameAction.Undo:
+                    break;
+                case GameAction.Number_Optional_Or_Erase:
+                    OptionalEraseOrReplaceNum(eraseOrReplaceNum);
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         #endregion

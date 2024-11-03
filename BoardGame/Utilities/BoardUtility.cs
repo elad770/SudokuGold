@@ -11,6 +11,14 @@ using System.Windows;
 namespace BoardGame.Utilities
 {
 
+    public enum GameAction
+    {
+        Pencil_Mode,
+        Undo,
+        Number_Optional_Or_Erase,
+    }
+
+
 
     internal static class BoardUtility
     {

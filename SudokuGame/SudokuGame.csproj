@@ -77,7 +77,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\LevelToColorConverter.cs" />
     <Compile Include="Converters\StarColorConverter.cs" />
+    <Compile Include="ViewModels\GamePageVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

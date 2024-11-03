@@ -10,6 +10,8 @@ namespace BoardGame.Interfaces
 {
     public interface ICombinedGameBoardProvider : IGameBoardProvider, IValidationGameBoardProvider
     {
+       int[,] Borad { get; set; }
+
     }
 
 }
