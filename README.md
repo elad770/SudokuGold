@@ -28,5 +28,5 @@ The sounds, icons and images in the game itself were downloaded from free websit
 
 [![Video](https://github.com/elad770/SudokuGold/assets/73057751/6d56562f-337c-4f12-a2d9-56ec3ed88724.png)](https://github.com/elad770/SudokuGold/assets/73057751/6d56562f-337c-4f12-a2d9-56ec3ed88724)
 
-
+https://github.com/user-attachments/assets/5248cafc-d668-458d-adc3-389739801b12
 
