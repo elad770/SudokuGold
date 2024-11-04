@@ -35,6 +35,8 @@ namespace BoardGame.VIewModels
         
         private Action actionAfterEndGame;
 
+       // private int indexColor;
+
         //private ICombinedGameBoardProvider gameBoard;
 
 
@@ -52,6 +54,8 @@ namespace BoardGame.VIewModels
         public ICommand RestOrNewGameCommand { get; }
 
         public ICommand ChangeBackgroundColorCommand { get; }
+
+      //  public ICommand NextOrPreColorsCommand { get; }
 
         public ICommand FocusTextBoxCommand { get; }
 
@@ -72,9 +76,9 @@ namespace BoardGame.VIewModels
             FillCollectionTextBoxCells();
 
             //RestOrNewGameCommand = new RelayCommand(ClearOrNewGame);
-            ChangeBackgroundColorCommand = new RelayCommand(ChangeBackgroundColor);
-            FocusTextBoxCommand = new RelayCommand(FocusTextBox);
-            AfterInsertValToCell = new RelayCommand(ExecuteAfterInsertVal);
+            ChangeBackgroundColorCommand = new RelayCommand<object>(ChangeBackgroundColor);
+            FocusTextBoxCommand = new RelayCommand<object>(FocusTextBox);
+            AfterInsertValToCell = new RelayCommand<object>(ExecuteAfterInsertVal);
             this.actionAfterEndGame = actionAfterEndGame;
             FillSounds();
         }
@@ -98,9 +102,9 @@ namespace BoardGame.VIewModels
             }
         }
 
-        private void ChangeBackgroundColor(object parameter)
+        private void ChangeBackgroundColor(object color)
         {
-            ColorDictionaryResource.ColorHexKey = parameter.ToString();
+            ColorDictionaryResource.ColorHexKey = color.ToString();
             if (focusedTextBox != null)
             {
                 focusedTextBox.Focus();
@@ -316,6 +320,42 @@ namespace BoardGame.VIewModels
             }
 
         }
+
+        //private void ArrowClick(string arrow)
+        //{
+
+        //    //sound.Play();
+        //    Button temp = null;
+        //    int newIndex = 0, startIndex = 2, endIndex = 5;
+
+        //    Action swap = () =>
+        //    {
+        //        int t = startIndex;
+        //        startIndex = endIndex;
+        //        endIndex = t;
+        //    };
+
+        //    if (arrow == "buRight")
+        //    {
+        //        // Move to the right
+        //        // 3 this is child button color start
+        //        newIndex = Math.Abs((++indexColor + 3) % 9);
+        //    }
+        //    else
+        //    {
+        //        // Move to the left
+        //        swap();
+        //        // 7 this is child button color end
+        //        newIndex = Math.Abs((indexColor-- + 8) % 9);
+        //    }
+        //    temp = stPanelColor.Children[startIndex] as Button;
+        //    stPanelColor.Children.RemoveAt(startIndex);
+        //    temp.Background = Resources[$"CustomColor{newIndex}"] as SolidColorBrush;
+        //    stPanelColor.Children.Insert(endIndex, temp);
+        //    indexColor %= 9;
+
+        //}
+
 
         #endregion
     }

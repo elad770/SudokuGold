@@ -32,15 +32,6 @@ namespace SudokuGame.UserControls
     /// </summary>
 
 
-    //public enum GameAction
-    //{
-    //    New_Game,
-    //    Reset_Game,
-    //    Number_Optional_Or_Erase,
-    //}
-
-
-
     [AddINotifyPropertyChangedInterface]
     public partial class UserControlBoardGame : UserControl
     {
@@ -61,14 +52,14 @@ namespace SudokuGame.UserControls
             DataContext = boradVM;
         }
 
-       
 
-        private void Change_Background_Color(object sender, RoutedEventArgs e)
-        {
-            Button button = (Button)sender;
-            SolidColorBrush buttonColor = (SolidColorBrush)button.Background;
-            Resources["CustomColor0"] = buttonColor;
-        }
+
+        //private void Change_Background_Color(object sender, RoutedEventArgs e)
+        //{
+        //    Button button = (Button)sender;
+        //    SolidColorBrush buttonColor = (SolidColorBrush)button.Background;
+        //    Resources["CustomColor0"] = buttonColor;
+        //}
 
 
         private void ArrowClick(object sender, MouseButtonEventArgs e)
@@ -106,73 +97,8 @@ namespace SudokuGame.UserControls
 
         }
 
-
-
-        public void RefocusCell()
-        {
-
-            //if (viewModel.focusedTextBox != null)
-            //{
-
-            //    // viewModel.focusedTextBox.GotFocus += viewModel.TextBox_GotFocus;
-            //}
-        }
-
     }
 
 
 }
 
-
-
-
-/*
- *  List<Action<int, int, int>> actionsList = new List<Action<int, int, int>>();
-            Action<int, int, int> add = (int num1, int num2, int num3) =>
-            {
-                Debug.WriteLine($"{num1} + {num2} + {num3} = {num1 + num2 + num3}");
-            };
-            Action<int, int, int> mul = null;
-            mul = (int num, int num2, int num3) =>
-            {
-                if (num <= 0)
-                {
-                    return;
-                }
-                Debug.WriteLine(num + " * " + num2 + " * " + num3 + " = " + num * num2 * num3);
-                mul(--num, num2, num3);
-            };
-
-            Action<int, int, int> fib = null;
-            fib = (int index, int adv, int next) =>
-            {
-                if (index == -1)
-                {
-                    Console.WriteLine();
-                    return;
-                }
-                int current = adv;
-                adv += next;
-                next = current;
-                Debug.Write(current + " ");
-                fib(--index, adv, next);
-            };
-
-            actionsList.Add(fib);
-            actionsList.Add(add);
-            actionsList.Add(mul);
-
-            //fib
-            actionsList[0](10, 1, 0);
-
-            //other 
-            for (int i = 1; i < actionsList.Count; i++)
-            {
-                int a = new Random().Next(i, 14);
-                int b = new Random().Next(i, 14);
-                int c = new Random().Next(i, 14);
-                actionsList[i](a, b, c);
-            }
-
-
- */

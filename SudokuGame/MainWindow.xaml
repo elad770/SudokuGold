@@ -8,11 +8,13 @@
         mc:Ignorable="d"
         xmlns:conv="clr-namespace:SudokuGame"
         Icon="../Assets/Icons/pastime.png" Title="Sudoku Gold"
-        MinHeight="680" MinWidth="900" Background="#3b444b" FontFamily="Copperplate Gothic Light" WindowStartupLocation="CenterScreen"   MaxWidth="900" MaxHeight="680" >
+        MinHeight="680" MinWidth="900"  Background="#3b444b" FontFamily="Copperplate Gothic Light" WindowStartupLocation="CenterScreen"   MaxWidth="900" MaxHeight="680" >
     <!--<Window.Resources>
         <conv:StarColorConverter x:Key="StarColorConverter"/>
     </Window.Resources>-->
-
+    <Window.DataContext>
+        <local:MainVM />
+    </Window.DataContext>
 
     <Grid>
 
@@ -37,6 +39,16 @@
 
         <!-- Buttons -->
         <StackPanel Name="spMainButtons" Grid.Row="1"  HorizontalAlignment="Center" >
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMainPageVisible}" Value="false">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+
             <StackPanel.Resources>
                 <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
                     <Setter Property="Width" Value="260" />
@@ -45,18 +57,30 @@
                     <Setter Property="FontSize" Value="23" />
                     <Setter Property="Background" Value="#0077be"/>
                     <Setter Property="Foreground" Value="Gold"/>
-                    <EventSetter Event="Click" Handler="Main_Menu_Options"/>
+                    <Setter Property="Command" Value="{Binding MainMenuOptionsGameCommand}"/>
+                    <Setter Property="CommandParameter"  Value="{Binding RelativeSource={RelativeSource Self}, Path=Tag}"/>
+                    <!--<EventSetter Event="Click" Handler="Main_Menu_Options"/>-->
                 </Style>
             </StackPanel.Resources>
 
-            <Button x:Name="buPlayGame" Content="Play Game"/>
-            <Button x:Name="buHall" Content=" Hall of Fame"/>
-            <Button x:Name="buSettings" Content="Settings"/>
-            <Button x:Name="buAbout" Content="About Us"/>
-            <Button x:Name="buExit" Content="Exit"/>
+            <Button Tag="{x:Static local:MainMenuOption.StartGame}"  Content="Play Game"/>
+            <Button Tag="{x:Static local:MainMenuOption.HallOfFame}" x:Name="buHall" Content=" Hall of Fame"/>
+            <Button Tag="{x:Static local:MainMenuOption.Settings}" x:Name="buSettings" Content="Settings"/>
+            <Button Tag="{x:Static local:MainMenuOption.About}" x:Name="buAbout" Content="About Us"/>
+            <Button Tag="{x:Static local:MainMenuOption.Exit}" x:Name="buExit" Content="Exit"/>
         </StackPanel>
 
-        <Frame x:Name="contentFrame" NavigationUIVisibility="Hidden"  />
+        <Frame x:Name="contentFrame"  Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden">
+            <Frame.Style>
+                <Style TargetType="Frame">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMainPageVisible}" Value="False">
+                            <Setter Property="NavigationUIVisibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Frame.Style>
+        </Frame>
         <materialDesign:DialogHost Grid.RowSpan="2"  x:Name="RootDialog">
 
         </materialDesign:DialogHost>

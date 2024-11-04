@@ -25,6 +25,16 @@ namespace SudokuGame
         VeryEasy
     }
 
+    public enum MainMenuOption
+    {
+        StartGame,
+        Settings,
+        HallOfFame,
+        About,
+        Exit
+    }
+
+
 
     public class GameBoardProvider : ICombinedGameBoardProvider
     {

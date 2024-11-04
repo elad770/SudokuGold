@@ -46,12 +46,12 @@
                             </Style>
 
                         </StackPanel.Resources>
-                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Impossible}}" Tag="Impossible" Content="Impossible" />
-                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Extreme}}" Tag="Extreme"  Content="Extreme" />
-                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Hard}}"  Tag="Hard" Content="Hard" />
-                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Medium}}" Tag="Medium" Content="Medium" />
-                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Easy}}" Tag="Easy" Content="Easy" />
-                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.VeryEasy}}" Tag="VeryEasy" Content="Very Easy" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Impossible}}" Tag="{x:Static local:DifficultyLevel.Impossible}" Content="Impossible" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Extreme}}" Tag="{x:Static local:DifficultyLevel.Extreme}"  Content="Extreme" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Hard}}"  Tag="{x:Static local:DifficultyLevel.Hard}" Content="Hard" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Medium}}" Tag="{x:Static local:DifficultyLevel.Medium}" Content="Medium" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.Easy}}" Tag="{x:Static local:DifficultyLevel.Easy}" Content="Easy" />
+                        <Button Foreground="{Binding Level, Converter={StaticResource LevelToColorConverter}, ConverterParameter={x:Static local:DifficultyLevel.VeryEasy}}" Tag="{x:Static local:DifficultyLevel.VeryEasy}" Content="Very Easy" />
                         <!--<Button  Content="Impossible"  />
                         <Button  Content="Extreme"   />
                         <Button  Content="Hard"  />
@@ -139,7 +139,7 @@
                                     <Setter Property="FontSize" Value="25" />
                                     <Setter Property="Margin" Value="0,0,0,4"/>
                                     <Setter Property="Background" Value="#eaeef4" />
-                                    <Setter Property="Height" Value="55" />
+                                    <Setter Property="Height" Value="60" />
                                     <Setter Property="Width" Value="60" />
                                     <Setter Property="Command" Value="{Binding ButtonAddNumToBoardCommand}"/>
                                     <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>

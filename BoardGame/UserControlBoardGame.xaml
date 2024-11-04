@@ -76,6 +76,8 @@
                 <Button  Background="{StaticResource CustomColor3}" />
 
                 <Button Style="{StaticResource GlobalButtonStyle}" Name="buRight" Content="&gt;" Width="40" PreviewMouseDown="ArrowClick" />
+
+                <!--<Button Style="{StaticResource GlobalButtonStyle}" Name="buRight" Content="&gt;" Width="40" PreviewMouseDown="ArrowClick" />-->
             </StackPanel>
 
         </StackPanel>

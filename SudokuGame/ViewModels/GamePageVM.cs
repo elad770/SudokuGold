@@ -71,20 +71,19 @@ namespace SudokuGame
         public GamePageVM()
         {
             InitializeGame();
-            MenuGameCommand = new RelayCommand(MenuGame);
-            RestOrNewGameCommand = new RelayCommand(RestOrNewGame);
-            ButtonAddNumToBoardCommand = new RelayCommand((object num) => { BoradVM.OptionalActions(GameAction.Number_Optional_Or_Erase, num.ToString()); });
-            DifficultyOfGameCommand = new RelayCommand((object obj) => {
-                Enum.TryParse(obj.ToString(), true, out DifficultyLevel difficulty);
-                gameBoardProvider.Level = Level = difficulty;
-                BoradVM.ClearOrNewGame(false);
-                currentDiff = difficulty.ToString();
-                Configuration config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
-                config.AppSettings.Settings["Level"].Value = currentDiff;
-                config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
-
-                UpdateStars();
+            MenuGameCommand = new RelayCommand<object>(MenuGame);
+            RestOrNewGameCommand = new RelayCommand<bool>(RestOrNewGame);
+            ButtonAddNumToBoardCommand = new RelayCommand<string>((string num) => { BoradVM.OptionalActions(GameAction.Number_Optional_Or_Erase, num); });
+            DifficultyOfGameCommand = new RelayCommand<DifficultyLevel>((DifficultyLevel dif) => {
+                ChangeLevel(dif);
+                //gameBoardProvider.Level = Level = dif;
+                //BoradVM.ClearOrNewGame(false);
+                //currentDiff = dif.ToString();
+                //Configuration config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
+                //config.AppSettings.Settings["Level"].Value = currentDiff;
+                //config.Save(ConfigurationSaveMode.Modified);
+                //ConfigurationManager.RefreshSection("appSettings");
+                //UpdateStars();
             });
 
 
@@ -127,28 +126,40 @@ namespace SudokuGame
 
             UserBoardGame = new UserControlBoardGame(BoradVM);
 
-           
+            
 
-            timer = new DispatcherTimer();
+             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) => UpdateElapsedTime();
             startTime = DateTime.Now;
             timer.Start();
 
             FillDictionaryDiffLevels();
-
             UpdateStars();
+            UpdateWindowTitle();
         }
 
 
-
-        public void RestOrNewGame(object obj)
+        private void RestOrNewGame(bool isRest)
         {
             try
             {
-                BoradVM.ClearOrNewGame(bool.Parse(obj.ToString()));
+                BoradVM.ClearOrNewGame(isRest);
             }
             catch { }
+        }
+
+        private void ChangeLevel(DifficultyLevel dif)
+        {
+            gameBoardProvider.Level = Level = dif;
+            BoradVM.ClearOrNewGame(false);
+            currentDiff = dif.ToString();
+            Configuration config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
+            config.AppSettings.Settings["Level"].Value = currentDiff;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+            UpdateStars();
+            UpdateWindowTitle();
         }
 
 

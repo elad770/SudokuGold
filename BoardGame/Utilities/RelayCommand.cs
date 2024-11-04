@@ -7,12 +7,12 @@ using System.Windows.Input;
 
 namespace BoardGame.Utilities
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand<T> : ICommand
     {
-        private readonly Action<object> execute;
-        private readonly Func<object, bool> canExecute;
+        private readonly Action<T> execute;
+        private readonly Func<T, bool> canExecute;
 
-        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -26,12 +26,12 @@ namespace BoardGame.Utilities
 
         public bool CanExecute(object parameter)
         {
-            return canExecute?.Invoke(parameter) ?? true;
+            return canExecute?.Invoke((T)parameter) ?? true;
         }
 
         public void Execute(object parameter)
         {
-            execute(parameter);
+            execute((T)parameter);
         }
     }
 
