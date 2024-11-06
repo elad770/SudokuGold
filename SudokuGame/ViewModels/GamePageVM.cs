@@ -19,7 +19,7 @@ using System.Windows.Threading;
 namespace SudokuGame
 {
     [AddINotifyPropertyChangedInterface]
-    public class GamePageVM
+    public class GamePageVM : BasePageVM
     {
         private static GamePageVM instance;
         private string currentDiff = ConfigurationManager.AppSettings["Level"];
@@ -43,6 +43,9 @@ namespace SudokuGame
 
         public ICommand DifficultyOfGameCommand { get; }
 
+        public ICommand PopupMenuButtonCommand { get; }
+
+
         public ObservableCollection<bool> Stars { get; set; }
 
         public BoardViewModel BoradVM { get; set; }
@@ -53,26 +56,34 @@ namespace SudokuGame
 
         public UserControlBoardGame UserBoardGame { get; set; }
 
-       
+        public bool IsPopupMenuOpen { get; set; }
+
         public string PopupTitle { get; set; }
         public string PopupContent { get; set; }
         public string TimerText { get; private set; }
 
-        public static GamePageVM Instance
+        public static BasePageVM GetInstance(Action comebackPage)
         {
-            get
-            {
-                if (instance == null)
-                    instance = new GamePageVM();
-                return instance;
-            }
+            if (instance == null)
+                instance = new GamePageVM(comebackPage);
+            return instance;
         }
 
-        public GamePageVM()
+        //public static GamePageVM Instance
+        //{
+        //    get
+        //    {
+        //        if (instance == null)
+        //            instance = new GamePageVM();
+        //        return instance;
+        //    }
+        //}
+
+        public GamePageVM(Action comeback): base(comeback)
         {
             InitializeGame();
             MenuGameCommand = new RelayCommand<object>(MenuGame);
-            RestOrNewGameCommand = new RelayCommand<bool>(RestOrNewGame);
+            RestOrNewGameCommand = new RelayCommand<string>(RestOrNewGame);
             ButtonAddNumToBoardCommand = new RelayCommand<string>((string num) => { BoradVM.OptionalActions(GameAction.Number_Optional_Or_Erase, num); });
             DifficultyOfGameCommand = new RelayCommand<DifficultyLevel>((DifficultyLevel dif) => {
                 ChangeLevel(dif);
@@ -85,7 +96,7 @@ namespace SudokuGame
                 //ConfigurationManager.RefreshSection("appSettings");
                 //UpdateStars();
             });
-
+            PopupMenuButtonCommand = new RelayCommand<string>(ExecutePopupButtonCommand);
 
         }
 
@@ -93,13 +104,35 @@ namespace SudokuGame
         {
             if(obj == null)
             {
-
+                IsPopupMenuOpen = true;
                 return;
             }
             Enum.TryParse(obj.ToString(), true, out GameAction action);
             BoradVM.OptionalActions(action);
         }
 
+
+        private void ExecutePopupButtonCommand(string parameter)
+        {
+            IsPopupMenuOpen = false;
+            switch (parameter)
+            {
+                case "Continue":
+                    break;
+                case "Settings":
+                    // Open settings logic
+                    break;
+                case "Main Menu":
+                    ComebackToMainWindow();
+                    break;
+                case "Exit Game":
+                    Application.Current.Shutdown();
+                    break;
+
+                default:
+                    throw new ArgumentException("Invalid command parameter", nameof(parameter));
+            }
+        }
 
 
 
@@ -140,11 +173,11 @@ namespace SudokuGame
         }
 
 
-        private void RestOrNewGame(bool isRest)
+        private void RestOrNewGame(string isRest)
         {
             try
             {
-                BoradVM.ClearOrNewGame(isRest);
+                BoradVM.ClearOrNewGame(bool.Parse(isRest));
             }
             catch { }
         }
@@ -216,7 +249,6 @@ namespace SudokuGame
             ((MainWindow)Application.Current.MainWindow).Title = windowTitle;
         }
 
-
-
+       
     }
 }

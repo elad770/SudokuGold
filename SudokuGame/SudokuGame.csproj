@@ -79,6 +79,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\LevelToColorConverter.cs" />
     <Compile Include="Converters\StarColorConverter.cs" />
+    <Compile Include="ViewModels\BasePageVM.cs" />
     <Compile Include="ViewModels\GamePageVM.cs" />
     <Compile Include="ViewModels\MainVM.cs" />
     <Page Include="MainWindow.xaml">

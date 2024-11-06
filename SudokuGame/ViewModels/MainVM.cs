@@ -25,8 +25,17 @@ namespace SudokuGame
 
         public bool IsMainPageVisible => CurrentPage == null;
 
+        private readonly Action comebackPage;
+
+
         public MainVM()
         {
+            comebackPage = () => 
+            {
+                CurrentPage = null; 
+                soundPlayer.PlayLooping(); 
+            };
+
             MainMenuOptionsGameCommand = new RelayCommand<MainMenuOption>(MainMenuOptionsGame);
             string currentDirectory = System.IO.Directory.GetCurrentDirectory();
             string soundFilePath = System.IO.Path.Combine("..", "..", "Sounds", "background-sound.wav");
@@ -34,7 +43,8 @@ namespace SudokuGame
             Task.Run(() => soundPlayer.PlayLooping());
         }
 
-        
+       
+
 
         private void MainMenuOptionsGame(MainMenuOption menu)
         {
@@ -43,8 +53,10 @@ namespace SudokuGame
                 case MainMenuOption.StartGame:
                     {
                         soundPlayer.Stop();
-                        CurrentPage = new GamePage();
-                       // RunGame();
+                        CurrentPage = new GamePage() { DataContext = GamePageVM.GetInstance(comebackPage) };
+                        // CurrentPage = new GamePage();
+                        //CurrentPage = new GamePage();
+                        // RunGame();
                         break;
                     }
                 case MainMenuOption.HallOfFame:

@@ -53,9 +53,10 @@ namespace SudokuGame.Pages
         //}
 
 
-        public GamePage()
+        public GamePage(/*GamePageVM pagevm*/)
         {
             InitializeComponent();
+            //DataContext = pagevm;
 
            // DataContext = GamePageVM.Instance;
 

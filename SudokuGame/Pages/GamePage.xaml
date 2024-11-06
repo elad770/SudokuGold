@@ -9,7 +9,8 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="GamePage" DataContext="{x:Static local:GamePageVM.Instance}" FontFamily="Copperplate Gothic Light">
+      Title="GamePage" FontFamily="Copperplate Gothic Light">
+    <!--DataContext="{x:Static local:GamePageVM.Instance}"-->
     <Page.Resources>
         <conv:StarColorConverter x:Key="StarColorConverter"/>
         <conv:LevelToColorConverter x:Key="LevelToColorConverter"/>
@@ -214,7 +215,7 @@
                 </materialDesign:DialogHost.DialogContent>
             </materialDesign:DialogHost>
 
-            <materialDesign:DialogHost x:Name="PopupHostMenu">
+            <materialDesign:DialogHost x:Name="PopupHostMenu" IsOpen="{Binding IsPopupMenuOpen}">
                 <materialDesign:DialogHost.DialogContent>
                     <materialDesign:Card Padding="40"  Height="420" Background="#3b444b">
                         <StackPanel>
@@ -226,13 +227,15 @@
                                     <Setter Property="FontSize" Value="20" />
                                     <Setter Property="Background" Value="#0077be"/>
                                     <Setter Property="Foreground" Value="Gold"/>
+                                    <Setter Property="Command" Value="{Binding PopupMenuButtonCommand}" />
+                                    <Setter Property="CommandParameter" Value="{Binding Content, RelativeSource={RelativeSource Self}}" />
                                     <!--<EventSetter Event="PreviewMouseDown" Handler="Menu_Button"/>-->
                                 </Style>
                             </StackPanel.Resources>
                             <TextBlock  Width="auto" HorizontalAlignment="Center" Margin="0,0,0,5" Height="25" Foreground="White">Menu</TextBlock>
                             <Button x:Name="buNext" Content="Continue"/>
                             <Button x:Name="buSettings" Content="Settings"/>
-                            <Button x:Name="buBack" Content="Menu Main"/>
+                            <Button x:Name="buBack" Content="Main Menu"/>
                             <Button x:Name="buExit" Content="Exit Game"/>
                         </StackPanel>
                     </materialDesign:Card>
