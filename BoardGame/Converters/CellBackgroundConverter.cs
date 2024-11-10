@@ -32,6 +32,7 @@ namespace BoardGame.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            
             string keyColor = ColorDictionaryResource.ColorHexKey.ToLower();
             var valueColor = ColorDictionaryResource.DictFocusColors[keyColor];
             dictModeCellBackground[ModeCellBackgroundColor.Focus] = keyColor;

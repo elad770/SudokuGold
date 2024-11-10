@@ -32,12 +32,12 @@ namespace SudokuGame.UserControls
     /// </summary>
 
 
-    [AddINotifyPropertyChangedInterface]
+    //[AddINotifyPropertyChangedInterface]
     public partial class UserControlBoardGame : UserControl
     {
 
-        private int indexColor;
-        SoundPlayer sound;
+       // private int indexColor;
+       // SoundPlayer sound;
         public bool IsPanelColorVisable { get; set; } = true;
 
         //BoardViewModel viewModel;
@@ -46,9 +46,9 @@ namespace SudokuGame.UserControls
         {
             InitializeComponent();
 
-            string soundFilePath = /*System.IO.*/Path.Combine("..", "..", "..", "BoardGame/Assets/Sounds/right-left-arrow.wav");
-            sound = new SoundPlayer(soundFilePath);
-            indexColor = 0;
+           // string soundFilePath = /*System.IO.*/Path.Combine("..", "..", "..", "BoardGame/Assets/Sounds/right-left-arrow.wav");
+          //  sound = new SoundPlayer(soundFilePath);
+          //  indexColor = 0;
             DataContext = boradVM;
         }
 
@@ -62,40 +62,40 @@ namespace SudokuGame.UserControls
         //}
 
 
-        private void ArrowClick(object sender, MouseButtonEventArgs e)
-        {
+        //private void ArrowClick(object sender, MouseButtonEventArgs e)
+        //{
 
-            sound.Play();
-            Button temp = null;
-            int newIndex = 0, startIndex = 2, endIndex = 5;
+        //    sound.Play();
+        //    Button temp = null;
+        //    int newIndex = 0, startIndex = 2, endIndex = 5;
 
-            Action swap = () =>
-            {
-                int t = startIndex;
-                startIndex = endIndex;
-                endIndex = t;
-            };
+        //    Action swap = () =>
+        //    {
+        //        int t = startIndex;
+        //        startIndex = endIndex;
+        //        endIndex = t;
+        //    };
 
-            if ((sender as Button).Name == "buRight")
-            {
-                // Move to the right
-                // 3 this is child button color start
-                newIndex = Math.Abs((++indexColor + 3) % 9);
-            }
-            else
-            {
-                // Move to the left
-                swap();
-                // 7 this is child button color end
-                newIndex = Math.Abs((indexColor-- + 8) % 9);
-            }
-            temp = stPanelColor.Children[startIndex] as Button;
-            stPanelColor.Children.RemoveAt(startIndex);
-            temp.Background = Resources[$"CustomColor{newIndex}"] as SolidColorBrush;
-            stPanelColor.Children.Insert(endIndex, temp);
-            indexColor %= 9;
+        //    if ((sender as Button).Name == "buRight")
+        //    {
+        //        // Move to the right
+        //        // 3 this is child button color start
+        //        newIndex = Math.Abs((++indexColor + 3) % 9);
+        //    }
+        //    else
+        //    {
+        //        // Move to the left
+        //        swap();
+        //        // 7 this is child button color end
+        //        newIndex = Math.Abs((indexColor-- + 8) % 9);
+        //    }
+        //    temp = stPanelColor.Children[startIndex] as Button;
+        //    stPanelColor.Children.RemoveAt(startIndex);
+        //    temp.Background = Resources[$"CustomColor{newIndex}"] as SolidColorBrush;
+        //    stPanelColor.Children.Insert(endIndex, temp);
+        //    indexColor %= 9;
 
-        }
+        //}
 
     }
 

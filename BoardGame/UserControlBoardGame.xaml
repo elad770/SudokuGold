@@ -68,14 +68,20 @@
                     </Style>
                 </StackPanel.Resources>
 
-                <Label>Color:</Label>
-                <Button Style="{StaticResource GlobalButtonStyle}" Name="buLeft" Content="&lt;"  Width="40"  PreviewMouseDown="ArrowClick"  />
+                <Label Content="Color"/>
+                <!--<Button Style="{StaticResource GlobalButtonStyle}" Name="buLeft" Content="&lt;"  Width="40"  PreviewMouseDown="ArrowClick"  />-->
                 <Button  Background="{StaticResource CustomColor0}"  />
                 <Button  Background="{StaticResource CustomColor1}"  />
                 <Button  Background="{StaticResource CustomColor2}" />
                 <Button  Background="{StaticResource CustomColor3}" />
-
-                <Button Style="{StaticResource GlobalButtonStyle}" Name="buRight" Content="&gt;" Width="40" PreviewMouseDown="ArrowClick" />
+                <Button  Background="{StaticResource CustomColor4}" />
+                <Button  Background="{StaticResource CustomColor5}" />
+                <Button  Background="{StaticResource CustomColor6}" />
+                <Button  Background="{StaticResource CustomColor7}" />
+                <Button  Background="{StaticResource CustomColor8}" />
+                <Button  Background="{StaticResource CustomColor9}" />
+                <Button  Background="{StaticResource CustomColor10}" />
+                <!--<Button Style="{StaticResource GlobalButtonStyle}" Name="buRight" Content="&gt;" Width="40" PreviewMouseDown="ArrowClick" />-->
 
                 <!--<Button Style="{StaticResource GlobalButtonStyle}" Name="buRight" Content="&gt;" Width="40" PreviewMouseDown="ArrowClick" />-->
             </StackPanel>
