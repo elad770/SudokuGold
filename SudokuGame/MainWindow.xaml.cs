@@ -37,71 +37,10 @@ namespace SudokuGame
     {
 
         public bool IsButtonVisible { get; set; } = true;
-       // SoundPlayer soundPlayer = null;
-      //  private GamePage gamePage;
 
         public MainWindow()
         {
-         
-            //int[] nums = new int[] { -1, 0, 1, 2, -1, -4 };
-            //nums = nums.OrderBy(x => x).ToArray();
             InitializeComponent();
-
-            
-            //string currentDirectory = System.IO.Directory.GetCurrentDirectory();
-            //string soundFilePath = System.IO.Path.Combine("..", "..", "Sounds", "background-sound.wav");
-            //soundPlayer = new SoundPlayer(soundFilePath);
-            //Task.Run(() => soundPlayer.PlayLooping());
-
-        }
-
-
-        public void BackMainWinodw()
-        {
-            //Task.Run(() => soundPlayer.PlayLooping());
-            //spMainButtons.Visibility = Visibility.Visible;
-            //this.Title = "Sudoku Gold";
-           
-            //contentFrame.Content = null;
-        }
-
-        //private void RunGame()
-        //{
-
-        //    Application.Current.Dispatcher.Invoke(() =>
-        //    {
-        //        soundPlayer.Stop();
-        //        contentFrame.Navigate(new GamePage());
-        //        spMainButtons.Visibility = Visibility.Hidden;
-        //        IsButtonVisible = false;
-        //        Mouse.OverrideCursor = Cursors.Wait;
-        //        Task.Delay(200);
-        //        Mouse.OverrideCursor = null;
-        //    });
-        //}
-
-
-        private void Main_Menu_Options(object sender, RoutedEventArgs e)
-        {
-
-            // var viewModel = new CustomMaterialDesignPopupViewModel();
-
-            //switch ((sender as Button).Name)
-            //{
-            //    case "buPlayGame":
-            //        {
-            //            RunGame();
-            //            break;
-            //        }
-            //    case "buHall":
-            //        break;
-            //    case "buSettings":
-            //        break;
-            //    case "buExit":
-            //        Application.Current.Shutdown();
-            //        break;
-            //}
-
         }
 
         private void GameWindow_Closed(object sender, EventArgs e)

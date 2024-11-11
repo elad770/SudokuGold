@@ -201,7 +201,7 @@
             </Border>
         </Grid>
         <Grid>
-            <materialDesign:DialogHost   x:Name="PopupHost" >
+            <materialDesign:DialogHost x:Name="PopupHost" IsOpen="{Binding IsPopupSolveBoard}" >
                 <materialDesign:DialogHost.DialogContent>
                     <materialDesign:Card Padding="40"  Background="#3b444b">
                         <StackPanel>
@@ -209,6 +209,7 @@
                                 <TextBlock Text="{Binding PopupTitle}" FontSize="21" Foreground="White" Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
                             </StackPanel>
                             <TextBlock FontSize="14"  Text="{Binding PopupContent}" Foreground="White" TextWrapping="Wrap"/>
+                            <Button Content="OK" Width="100" Focusable="False"  FocusVisualStyle="{x:Null}" Command="{Binding RestOrNewGameCommand}" CommandParameter="false" Style="{StaticResource MaterialDesignFlatAccentBgButton}" HorizontalAlignment="Center" Margin="0,20,0,0"/>
                             <!--<Button  Content="OK" Width="60" Click="PopupOK_Click" Style="{StaticResource MaterialDesignFlatAccentBgButton}" HorizontalAlignment="Center" Margin="0 20 0 0"/>-->
                         </StackPanel>
                     </materialDesign:Card>

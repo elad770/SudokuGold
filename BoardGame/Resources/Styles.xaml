@@ -32,7 +32,7 @@
     <SolidColorBrush x:Key="CustomColor4" Color="#F69C10" />
     <SolidColorBrush x:Key="CustomColor5" Color="#b99A87"/>
     <SolidColorBrush x:Key="CustomColor6" Color="#F79489"/>
-    <SolidColorBrush x:Key="CustomColor7" Color="#8B8787"/>
+    <SolidColorBrush x:Key="CustomColor7" Color="#a29f9f"/>
     <SolidColorBrush x:Key="CustomColor8" Color="#ffffD700"/>
     <SolidColorBrush x:Key="CustomColor9" Color="#efe4b0"/>
     <SolidColorBrush x:Key="CustomColor10" Color="#9CF4F9"/>

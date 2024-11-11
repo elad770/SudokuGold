@@ -62,7 +62,15 @@
                         <Setter Property="Height"  Value="25"/>
                     </Style>
 
+                  
+
+
                     <Style TargetType="Button" BasedOn="{StaticResource GlobalButtonStyle}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
                         <Setter Property="Command" Value="{Binding ChangeBackgroundColorCommand}" />
                         <Setter Property="CommandParameter" Value="{Binding Background, RelativeSource={RelativeSource Self}}" />
                     </Style>

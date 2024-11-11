@@ -29,7 +29,6 @@ namespace SudokuGame
         private string windowTitle;
 
 
-
         private GameBoardProvider gameBoardProvider;
 
         private Dictionary<string, int> difficultyLevels;
@@ -45,7 +44,6 @@ namespace SudokuGame
 
         public ICommand PopupMenuButtonCommand { get; }
 
-
         public ObservableCollection<bool> Stars { get; set; }
 
         public BoardViewModel BoradVM { get; set; }
@@ -58,6 +56,8 @@ namespace SudokuGame
 
         public bool IsPopupMenuOpen { get; set; }
 
+        public bool IsPopupSolveBoard { get; set; }
+
         public string PopupTitle { get; set; }
         public string PopupContent { get; set; }
         public string TimerText { get; private set; }
@@ -69,33 +69,13 @@ namespace SudokuGame
             return instance;
         }
 
-        //public static GamePageVM Instance
-        //{
-        //    get
-        //    {
-        //        if (instance == null)
-        //            instance = new GamePageVM();
-        //        return instance;
-        //    }
-        //}
-
         public GamePageVM(Action comeback): base(comeback)
         {
             InitializeGame();
             MenuGameCommand = new RelayCommand<object>(MenuGame);
             RestOrNewGameCommand = new RelayCommand<string>(RestOrNewGame);
             ButtonAddNumToBoardCommand = new RelayCommand<string>((string num) => { BoradVM.OptionalActions(GameAction.Number_Optional_Or_Erase, num); });
-            DifficultyOfGameCommand = new RelayCommand<DifficultyLevel>((DifficultyLevel dif) => {
-                ChangeLevel(dif);
-                //gameBoardProvider.Level = Level = dif;
-                //BoradVM.ClearOrNewGame(false);
-                //currentDiff = dif.ToString();
-                //Configuration config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
-                //config.AppSettings.Settings["Level"].Value = currentDiff;
-                //config.Save(ConfigurationSaveMode.Modified);
-                //ConfigurationManager.RefreshSection("appSettings");
-                //UpdateStars();
-            });
+            DifficultyOfGameCommand = new RelayCommand<DifficultyLevel>((DifficultyLevel dif) => { ChangeLevel(dif); });
             PopupMenuButtonCommand = new RelayCommand<string>(ExecutePopupButtonCommand);
 
         }
@@ -141,10 +121,9 @@ namespace SudokuGame
             Action actionAfterEndGame = () =>
             {
                 PopupTitle = "Congratulations!";
-                difficultyLevels.TryGetValue(currentDiff, out var level);
-               // PopupContent = $"You managed to solve the puzzle on difficulty level {currentDiff}" + Environment.NewLine + "" +
-                //$"in time: {timerTextBlock.Text}";
-               // PopupHost.IsOpen = true;
+                PopupContent = $"You managed to solve the puzzle on difficulty level {currentDiff}" + Environment.NewLine + "" +
+                $"in time: {TimerText}";
+                IsPopupSolveBoard = true;
                 timer.Stop();
             };
 
@@ -177,6 +156,7 @@ namespace SudokuGame
         {
             try
             {
+                IsPopupSolveBoard = false;
                 BoradVM.ClearOrNewGame(bool.Parse(isRest));
             }
             catch { }

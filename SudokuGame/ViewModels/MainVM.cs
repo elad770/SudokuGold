@@ -43,9 +43,6 @@ namespace SudokuGame
             Task.Run(() => soundPlayer.PlayLooping());
         }
 
-       
-
-
         private void MainMenuOptionsGame(MainMenuOption menu)
         {
             switch (menu)
@@ -54,9 +51,6 @@ namespace SudokuGame
                     {
                         soundPlayer.Stop();
                         CurrentPage = new GamePage() { DataContext = GamePageVM.GetInstance(comebackPage) };
-                        // CurrentPage = new GamePage();
-                        //CurrentPage = new GamePage();
-                        // RunGame();
                         break;
                     }
                 case MainMenuOption.HallOfFame:

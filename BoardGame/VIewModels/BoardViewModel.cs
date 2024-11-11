@@ -35,15 +35,6 @@ namespace BoardGame.VIewModels
         
         private Action actionAfterEndGame;
 
-       // private int indexColor;
-
-        //private ICombinedGameBoardProvider gameBoard;
-
-
-
-
-        // private static int[,] ArrBorad;
-
         #endregion
 
         #region Propites
@@ -320,6 +311,7 @@ namespace BoardGame.VIewModels
             }
 
         }
+
 
         //private void ArrowClick(string arrow)
         //{
