@@ -1,22 +1,56 @@
-# SudokuGold
+# 🧩 SudokuGold
 
-Project SudokuGold is a Sudoku game with 6 levels of difficulty, from the easiest level to an impossible level.
-The game project is built as a WPF GUI, the project itself is actually divided into 3 parts.
+## Project Overview
+**SudokuGold** is a Sudoku game application with six levels of difficulty, from "Easy" to "Impossible". This project, built in WPF with the MVVM pattern, showcases a way to implement a custom control as a UserControl, making it both reusable and adaptable within a larger interface. The project is divided into three main components:
 
-- The sudoku board itself is a separate UserControl project intended for reuse.
-- Main project, which contains a main window and a page on which the board of the game sits as a component.
-- Special interfaces that require an implementation that will provide board values according to difficulty level and receiving board values of a two-dimensional array of size 9x9, and in addition to implement validation functions for the board itself.
+- **Sudoku Board UserControl**: A reusable control that dynamically builds the Sudoku board based on the ViewModel.
+- **Main Game Interface**: A primary WPF application that integrates Pages for navigation, each with its own ViewModel, including the game board component.
+- **Difficulty and Validation Interfaces**: Special interfaces that generate board values according to difficulty and validate board configurations.
 
-The sudoku board itself is a UserControl project that dynamically builds the board of the game with code from behind, in addition this project requires a uniform interface to provide the values of the board by level of difficulty and realization of legality of the board.
+---
 
-The main project contains a main window as a menu for the game and a page containing the board itself and more buttons and controls intended for the game itself and the board.
-The main project contains a class that implements the interfaces and also contains an ordered json file with a number of 9x9 panel values according to the six levels that are defined in the game itself.
+## 🛠️ Project Structure and Key Components
 
-To add the board of the game, you must implement a special interface, the interface itself requires you to create 3 functions in total, one must return a valid two-dimensional array of numbers according to difficulty level, the other two functions require you to perform validations according to the legality of the game, one must return If the value entered into any cell in the table is correct, that means checking according to the legality of the game, according to row/column and submatrix in which the cell is located.
-The second function requires returning a list of row and column indexes, if values in a row or column or in a sub-matrix are colored red due to a mistake made by the user during the game, after the function returns such a list the board itself updates the colors of the values from red to blue.
+### 1. **Sudoku Board UserControl**
+   - A standalone UserControl project that constructs a dynamic 9x9 Sudoku board.
+   - Managed by a ViewModel that handles the board's logic, making it flexible and easy to integrate into other projects.
+   - Requires an interface implementation to supply board values and validate board legality based on difficulty levels.
 
-The project uses the Material Design library for rich design, in addition it uses the Fody library which facilitates the definition of class properties and variables in the context of the NotifyChanged event.
-The sounds, icons and images in the game itself were downloaded from free websites.
+### 2. **Main Project**
+   - Houses the main application window with a menu structure, navigating between Pages that support different functionalities.
+   - Includes a dedicated page for the game, where the Sudoku board is integrated as a component.
+   - Contains a JSON file with a database of 9x9 board configurations pre-defined for the six difficulty levels.
+
+### 3. **Special Interfaces**
+   - These interfaces provide board values dynamically according to the chosen difficulty.
+   - Implement validation functions to ensure game legality. These functions:
+      - Verify cell values based on Sudoku rules (row, column, and subgrid constraints).
+      - Highlight mistakes in the board by flagging incorrect values in red, later resetting to blue when corrections are made.
+
+---
+
+## 🚀 Planned Features and Missing Functionality
+
+This prototype is fully playable, but some features are still under development to enhance the gameplay experience. Here’s what’s coming soon:
+
+- **🔄 Undo Operations**: Allows players to revert to previous moves to correct mistakes without starting over.
+- **✏️ Pencil Mode**: Enables players to make temporary "pencil" notes for potential numbers in cells without committing them.
+  
+### Additional Pages:
+   - **⚙️ Settings Page**: A customizable page for adjusting difficulty, themes, and other preferences.
+   - **🏆 Hall of Fame**: A leaderboard tracking players who’ve completed numerous boards at various difficulty levels.
+   - **ℹ️ About Page**: Game information, including version details, credits, and a brief gameplay description.
+
+These features are prioritized for future updates to create a richer and more engaging game experience.
+
+---
+
+## 🎯 Purpose of the Project
+Beyond creating a fun and challenging Sudoku game, this project serves as a demonstration of using **MVVM architecture** and **Pages** in a WPF application. It illustrates how to build a **custom UserControl** for a Sudoku board that is efficient, reusable, and easily integrated within a complex interface.
+
+---
+
+This format highlights the essential aspects of your project, making it clear and engaging for readers who view your GitHub repository. Each section is labeled with icons and concise explanations to improve readability.
 
 ![image](https://github.com/elad770/SudokuGold/assets/73057751/8f103553-4b14-4774-a643-44270a02d4b6)
 ![image](https://github.com/elad770/SudokuGold/assets/73057751/7dcef590-e0ad-4cf0-af75-24ac7a48f2eb)
