@@ -50,8 +50,6 @@ Beyond creating a fun and challenging Sudoku game, this project serves as a demo
 
 ---
 
-This format highlights the essential aspects of your project, making it clear and engaging for readers who view your GitHub repository. Each section is labeled with icons and concise explanations to improve readability.
-
 ![image](https://github.com/elad770/SudokuGold/assets/73057751/8f103553-4b14-4774-a643-44270a02d4b6)
 ![image](https://github.com/elad770/SudokuGold/assets/73057751/7dcef590-e0ad-4cf0-af75-24ac7a48f2eb)
 ![image](https://github.com/elad770/SudokuGold/assets/73057751/c1732fe2-7219-4218-bf32-6f2a78f356f8)
